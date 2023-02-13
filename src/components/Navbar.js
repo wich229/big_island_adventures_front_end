@@ -1,7 +1,7 @@
 import React from "react";
-import "./Navbar.css";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
+import SecNav from "./SecNav";
 
 function TopNav() {
   return (
@@ -17,14 +17,7 @@ function TopNav() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div className="booking-procress-bar">
-        <ul className="booking-step">
-          <li>EVENT</li>
-          <li>EVENT INFO</li>
-          <li>CLIENT</li>
-          <li>CONFIRMATION</li>
-        </ul>
-      </div>
+      <SecNav />
     </>
   );
 }
