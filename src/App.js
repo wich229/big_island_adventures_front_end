@@ -7,6 +7,7 @@ import RootLayout from "./RootLayout";
 import Home from "./pages/Home";
 import EventsPage from "./pages/EventsPage";
 import EventInfo from "./pages/EventInfo";
+import LoginSignUp from "./pages/LoginSignUp";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/login_signup", element: <LoginSignUp /> },
       { path: "/events", element: <EventsPage /> },
       { path: "/event-info", element: <EventInfo /> },
     ],
