@@ -1,8 +1,10 @@
 import React from "react";
+import SecNav from "../components/SecNav";
 
 const EventInfo = () => {
   return (
     <main>
+      <section><SecNav /></section>
       <h1 className="home-title">This is the EventInfo Page</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida,

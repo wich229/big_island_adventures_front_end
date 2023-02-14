@@ -1,5 +1,5 @@
-import React from "react";
 import "./SecNav.css";
+
 
 const SecNav = () => {
   return (

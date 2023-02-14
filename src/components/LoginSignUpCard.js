@@ -6,7 +6,8 @@ import '../App.css'
 
 const LoginSignUpCard = () => {
   return (
-    <main>
+    <main className="form-container">
+      <section>
     <Form className="text-center login-signup-form">
       <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Label>Name</Form.Label>
@@ -32,6 +33,7 @@ const LoginSignUpCard = () => {
         Sign In
       </Button>
     </Form>
+    </section>
     </main>
   );
 };

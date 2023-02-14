@@ -1,16 +1,16 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';  
-import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import './EventCard.css'
+import holderpic from "../images/pexels-diego-sandoval-4767081(2).jpg"
 
 
 const EventCard = () => {
   return (
     <section>
-      <Card className='event-card-container' style={{ width: "18rem" }}>
-        <Card.Img variant="top" src="holder.js/100px180" />
+      <Card className='event-card' style={{ width: "18rem" }}>
+        <Card.Img className='event-card-img' variant="top" src={holderpic} />
         <Card.Body>
           <Card.Title>Event One</Card.Title>
           <Card.Text>

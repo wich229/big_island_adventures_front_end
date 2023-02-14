@@ -32,7 +32,6 @@ function TopNav() {
           </Navbar.Text>
         </Container>
       </Navbar>
-      <SecNav />
       </header>
   );
 }

@@ -1,5 +1,18 @@
 .login-signup-form{
     width: 25vw;
     margin:0 auto;
+    margin-top: 5rem;
+    border: 1px solid rgba(0, 0, 0, 0.158);
+    border-radius: 15px;
+    padding: 1rem;
+    background-color: white;
     
+}
+.form-container{
+    background-image: url("../images/pexels-roberto-nickson-2559941.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+
 }
