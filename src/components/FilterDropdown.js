@@ -26,7 +26,7 @@ const FilterDropdown = () => {
                         action
                         active={selectedFilterOption === fKey}
                         onClick={() => setSelFilterOption(fKey)}
-                        variant="success"
+                        variant="secondary"
                     >
                         {fKey}
                     </ListGroup.Item>
