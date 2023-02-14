@@ -21,8 +21,9 @@
 
 .home-title {
     font-size: 80px;
-    color: white;
+    color: rgb(255, 255, 255);
     text-align: center;
     margin-top: 10rem;
-    padding: 10rem 10rem 0 10rem;
+    text-shadow: 1px 1px 1px rgba(1, 0, 0, 1);
+    
 }
