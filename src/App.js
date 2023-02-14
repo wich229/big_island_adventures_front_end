@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import EventsPage from "./pages/EventsPage";
 import EventInfo from "./pages/EventInfo";
 import LoginSignUp from "./pages/LoginSignUp";
+import About from "./pages/About"
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,8 @@ const router = createBrowserRouter([
       { path: "/login_signup", element: <LoginSignUp /> },
       { path: "/events", element: <EventsPage /> },
       { path: "/event-info", element: <EventInfo /> },
+      { path: "/about", element: <About /> },
+
     ],
   },
 ]);

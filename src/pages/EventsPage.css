@@ -1,0 +1,10 @@
+.query-choices{
+    font-weight: bold;
+    margin: 5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.event-card-container{
+    margin: 5rem;
+}

@@ -1,11 +1,9 @@
 .event-card-img{
-    border-radius: 15px;
-    margin: 0 auto;
-    margin-top: .75rem;
-    width: 90%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 .event-card{
     border-radius: 15px;
-    margin: 1rem;
+    margin-top: 1rem;
 }

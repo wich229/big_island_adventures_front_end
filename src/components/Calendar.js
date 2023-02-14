@@ -9,6 +9,7 @@ const Calendar = () => {
         <section className="calendar-container">
         <h3>Choose by date</h3>
         <DatePicker 
+            variant="secondary"
             popperPlacement="auto"
             className="calendar" 
             selected={startDate} 
