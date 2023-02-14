@@ -1,10 +1,13 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import './LoginSignUpCard.css'
+import '../App.css'
 
 const LoginSignUpCard = () => {
   return (
-    <Form>
+    <main>
+    <Form className="text-center login-signup-form">
       <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Label>Name</Form.Label>
         <Form.Control type="name" placeholder="name" />
@@ -26,9 +29,10 @@ const LoginSignUpCard = () => {
       </Form.Group>
 
       <Button variant="primary" type="submit">
-        Sing In
+        Sign In
       </Button>
     </Form>
+    </main>
   );
 };
 

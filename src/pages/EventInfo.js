@@ -2,7 +2,7 @@ import React from "react";
 
 const EventInfo = () => {
   return (
-    <div>
+    <main>
       <h1 className="home-title">This is the EventInfo Page</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida,
@@ -11,7 +11,7 @@ const EventInfo = () => {
         rutrum, lorem tortor dapibus turpis, sit amet vestibulum eros mi et
         odio.
       </p>
-    </div>
+    </main>
   );
 };
 

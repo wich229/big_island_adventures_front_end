@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import '../App.css'
 import Button from "react-bootstrap/Button";
 
 const Home = () => (
-  <div>
+  <main>
     <h1 className="home-title">This is the Home Page</h1>
     <section className="image-with-bookingButton">
       <Link to="/events">
@@ -21,7 +21,7 @@ const Home = () => (
         Sint vero tempora, sed nobis quos nemo molestiae sit quidem incidunt?
       </p>
     </section>
-  </div>
+  </main>
 );
 
 export default Home;

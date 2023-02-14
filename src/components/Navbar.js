@@ -4,14 +4,16 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import SecNav from "./SecNav";
+import logo from '../images/turtle.png'
+import './Navbar.css'
 
 function TopNav() {
   return (
-    <>
+    <header>
       <Navbar className="Nav">
         <Container>
-          <Link to="/">
-            <Navbar.Brand href="#home">LOGO</Navbar.Brand>
+          <Link className="BIA-logo-link" to="/">
+            <Navbar.Brand href="#home" className="BIA-logo-text"> <img className="turtle-logo" src={logo} height="50" alt="Turtle logo"/>Big Island Adventures</Navbar.Brand>
           </Link>
           {/* <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end"> */}
@@ -31,7 +33,7 @@ function TopNav() {
         </Container>
       </Navbar>
       <SecNav />
-    </>
+      </header>
   );
 }
 

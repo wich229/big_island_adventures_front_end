@@ -4,14 +4,14 @@ import "./SecNav.css";
 const SecNav = () => {
   return (
     <>
-      <div className="booking-procress-bar">
+      <section className="booking-procress-bar text-center">
         <ul className="booking-steps">
-          <li>EVENT</li>
-          <li>EVENT INFO</li>
+          <li>TOURS</li>
+          <li>TOUR INFO</li>
           <li>CLIENT</li>
           <li>CONFIRMATION</li>
         </ul>
-      </div>
+      </section>
     </>
   );
 };
