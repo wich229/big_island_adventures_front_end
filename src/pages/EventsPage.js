@@ -15,14 +15,49 @@ const page = "tours";
 const EventsPage = () => {
   const filterMenuOptions = {
     Category: ["Water Sports", "Educational", "Sightseeing"],
-    Location: ["Hilo", "Kailua-Kona", "Volcano", "Waimea"],
+    Location: ["Hilo", "Kona", "Volcano", "Waimea", "Hamakua"],
     Type: ["Indoor", "Outdoor"]
 };
+
+const transformFilterRequest= (filters) =>{
+  let request=[]
+  const categories = Object.keys(filters)
+  console.log(categories)
+
+  for (const [key, value] of Object.entries(filters)){
+    console.log(`key: ${key}`)
+    console.log(`value: ${value}`)
+    console.log(typeof value)
+    for (const i of value){
+      if (key === "Type"){
+        if (i === 'Indoor'){
+          request.push(`is_outdoor=false`)
+        }
+        if(i === "Outdoor"){
+          request.push(`is_outdoor=true`)
+        }}
+      if (key === "Location"){
+        request.push(`city=${i}`)
+      }
+    
+    else{
+    request.push(`${key.toLowerCase()}=${i.toLowerCase()}`)
+    }}
+    
+  }
+  const requestMessage = request.join('&')
+  console.log(`request: ${requestMessage}`)
+  return requestMessage;
+}
 // ----------------STATE---------------
   const [tours, setTours] = useState([]);
   const [filters, setFilters] = useState({})
-  console.log(`tours in eventspage: ${tours}`)
 
+  const print =(array)=>{
+  array.forEach(function(entry) {
+    console.log(entry);
+  });
+}
   useEffect(() => {
     axios
       .get(`${kBaseUrl}/tours`)
@@ -36,9 +71,11 @@ const EventsPage = () => {
 
   useEffect(() => {
     axios
-      .get(`${kBaseUrl}/tours?${filters}`)
+      .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
       .then((response) => {
+        print([filters])
         console.log(`filters in eventspage: ${filters}`)
+        print([response.data])
         console.log(`response data in events page: ${[...response.data]}`)
         setTours(response.data);
       })
@@ -49,8 +86,6 @@ const EventsPage = () => {
 
 
   console.log(`events page: ${filters}`)
-
-
 
   return (
   <main className="main-events">
@@ -69,7 +104,7 @@ const EventsPage = () => {
     </section>
 
     <section className="query-choices">
-      <FilterCheckboxes 
+      <FilterCheckboxes className="filter-checkbox"
         filterOptions={filterMenuOptions}
         selectedFilters={filters}
         setSelectedFilters={setFilters}/>
