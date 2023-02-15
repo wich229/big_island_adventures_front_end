@@ -1,4 +1,3 @@
-
 import EventCard from "./EventCard";
 import {CardGroup, Col} from 'react-bootstrap';  
 import '../App.css'

@@ -14,7 +14,7 @@ const EventCard = ({tour}) => {
       <Card className='event-card' style={{ width: "18rem", height: "40rem"}}>
         <Card.Img className='event-card-img' variant="top" src={holderpic} />
         <Card.Body>
-          <Card.Title classNam="card-title">{tour.name}</Card.Title>
+          <Card.Title className="card-title">{tour.name}</Card.Title>
           <Card.Text>
             {/* {tour.description} */}
           </Card.Text>

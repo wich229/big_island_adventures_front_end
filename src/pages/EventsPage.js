@@ -5,34 +5,23 @@ import EventsList from '../components/EventsList'
 import Calendar from '../components/Calendar';
 import Weather from '../components/Weather';
 import SecNav from "../components/SecNav";
-import FilterDropdown from "../components/FilterDropdown";
 import SortButton from "../components/SortButton";
-import { Col, Container, Dropdown, ListGroup, Row } from "react-bootstrap";
 import axios from 'axios';
-
-const filterMenuOptions = [{
-  Category: ["Water Sports", "Educational", "Sightseeing"]},
-  {Location: ["Hilo", "Kailua-Kona", "Volcano", "Waimea"]},
-  {Type: ["Indoor", "Outdoor"]}
-];   
+import FilterCheckboxes from "../components/FilterCheckboxes";
+  
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL
 const page = "tours";
 
 const EventsPage = () => {
-  
+  const filterMenuOptions = {
+    Category: ["Water Sports", "Educational", "Sightseeing"],
+    Location: ["Hilo", "Kailua-Kona", "Volcano", "Waimea"],
+    Type: ["Indoor", "Outdoor"]
+};
 // ----------------STATE---------------
   const [tours, setTours] = useState([]);
-  const [filters, setFilters] = useState([]);
-
-  useEffect(() => {
-    axios.get(`${kBaseUrl}/tours?filter=${filters.join(',')}`)
-      .then(response => {
-        setTours(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [filters]);
+  const [filters, setFilters] = useState({})
+  console.log(`tours in eventspage: ${tours}`)
 
   useEffect(() => {
     axios
@@ -45,29 +34,22 @@ const EventsPage = () => {
       });
   }, []);
 
-  const handleChange = (e) => {
-    const filter = e.target.value;
-    if (e.target.checked) {
-      setFilters([...filters, filter]);
-    } else {
-      setFilters(filters.filter(item => item !== filter));
-    }
-  };
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/tours?${filters}`)
+      .then((response) => {
+        console.log(`filters in eventspage: ${filters}`)
+        console.log(`response data in events page: ${[...response.data]}`)
+        setTours(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [filters]);
 
 
-    
-  
-      
-/*       
-      <form action="/action_page.php">
-  <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"/>
-  <label for="vehicle1"> I have a bike</label><br/>
-  <input type="checkbox" id="vehicle2" name="vehicle2" value="Car"/>
-  <label for="vehicle2"> I have a car</label><br/>
-  <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat"/>
-  <label for="vehicle3"> I have a boat</label><br/><br/>
-  <input type="submit" value="Submit"/>
-</form> */
+  console.log(`events page: ${filters}`)
+
 
 
   return (
@@ -87,7 +69,10 @@ const EventsPage = () => {
     </section>
 
     <section className="query-choices">
-      <FilterDropdown/>
+      <FilterCheckboxes 
+        filterOptions={filterMenuOptions}
+        selectedFilters={filters}
+        setSelectedFilters={setFilters}/>
       <SortButton/>
     </section>
 
