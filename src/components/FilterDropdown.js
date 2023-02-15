@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Col, Container, Dropdown, ListGroup, Row } from "react-bootstrap";
 /* CODE SOURCE: https://codesandbox.io/s/y3vbc?file=/src/App.js:0-1793 */
 
-const FilterDropdown = () => {
+const FilterDropdown = ({tours}) => {
     const filterMenuOptions = {
         Category: ["Water Sports", "Educational", "Sightseeing"],
         Location: ["Hilo", "Kailua-Kona", "Volcano", "Waimea"],

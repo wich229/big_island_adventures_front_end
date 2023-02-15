@@ -1,10 +1,18 @@
 .query-choices{
     font-weight: bold;
-    margin: 5rem;
     display: flex;
     flex-direction: row;
+    padding:1rem;
+    width: 100%;
+    justify-content: center;
 }
 
 .event-card-container{
-    margin: 5rem;
+    margin: .5rem;
+    padding: 0;
+    min-height: 100%;
+}
+
+.weather-calendar-container{
+    margin-bottom: 2rem;
 }

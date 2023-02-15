@@ -7,7 +7,7 @@ const Calendar = () => {
     const [startDate, setStartDate] = useState(new Date());
     return (
         <section className="calendar-container">
-        <h3>Choose by date</h3>
+        <h3>Select Tour by Date</h3>
         <DatePicker 
             variant="secondary"
             popperPlacement="auto"

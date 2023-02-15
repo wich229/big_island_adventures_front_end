@@ -1,5 +1,5 @@
-div .booking-procress-bar {
-  background-color: rgb(112, 112, 112);
+.booking-procress-bar {
+  background-color: rgb(115, 115, 119);
 }
 
 .booking-steps,
@@ -8,10 +8,25 @@ ul {
   list-style-type: none;
 }
 
-.booking-steps,
-ul,
-li {
+.booking-steps{
   color: white;
-  padding: 0.5rem 0.75rem;
   flex-grow: 1;
+}
+
+ul{
+  color: white;
+  flex-grow: 1;
+  padding: 0;
+}
+
+.default-li {
+  color: white;
+  flex-grow: 1;
+  padding:1rem;
+}
+.black-bg{
+  color: rgb(255, 255, 255);
+  flex-grow: 1;
+  padding:1rem;
+  background-color: rgb(87, 146, 154);
 }

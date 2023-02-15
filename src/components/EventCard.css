@@ -5,5 +5,9 @@
 
 .event-card{
     border-radius: 15px;
-    margin-top: 1rem;
+    margin: 1rem;
+}
+
+.card-title{
+    height: 5rem;
 }
