@@ -3,21 +3,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import './EventCard.css'
+import { Link,} from 'react-router-dom';
 import holderpic from "../images/pexels-diego-sandoval-4767081(2).jpg"
 
 
-const EventCard = () => {
+const EventCard = ({tour}) => {
+
   return (
     <section>
-      <Card className='event-card' style={{ width: "18rem" }}>
+      <Card className='event-card' style={{ width: "18rem", height: "40rem"}}>
         <Card.Img className='event-card-img' variant="top" src={holderpic} />
         <Card.Body>
-          <Card.Title>Event One</Card.Title>
+          <Card.Title className="card-title">{tour.name}</Card.Title>
           <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            {/* {tour.description} */}
           </Card.Text>
-          <Button variant="secondary">Event Info</Button>
+          <Link to={`/tours/${tour.id}`}>
+          <Button variant="secondary">More Info</Button>
+          </Link>
         </Card.Body>
       </Card>
     </section>

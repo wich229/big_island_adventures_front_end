@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { Container, CardGroup, Col, Row } from "react-bootstrap";
+import { useState, useEffect } from "react";
 import "../App.css";
 import "./EventsPage.css";
-import EventCard from "../components/EventCard";
-import Calendar from "../components/Calendar";
+import EventsList from "../components/EventsList";
 import Weather from "../components/Weather";
 import SecNav from "../components/SecNav";
-import FilterDropdown from "../components/FilterDropdown";
-import SortButton from "../components/SortButton";
+import axios from "axios";
+import FilterCheckboxes from "../components/FilterCheckboxes";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+//--------------------- EVENT API CALL ---------------------------------------
+const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
+const page = "tours";
 
 // Weather -------------------------------------------------------------------
 // can use eather to return the event suggestion:
 // # Headline.Severity	=> Severity of the headline, displayed as an integer. The lower the number, the greater the severity. 0 = Unknown 1 = Significant 2 = Major 3 = Moderate 4 = Minor 5 = Minimal 6 = Insignificant 7 = Informational
 // # DailyForecasts.Day.HasPrecipitation => bool
-
 //--------------------- Weather API CALL -------------------------------------
-const kBaseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day";
+const k2BaseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day";
 const WEATHER_API_KEY = process.env.REACT_APP_ACCUWEATHER_API_KEY;
 const LOCATION_KEYS = {
   Hamakua: 2203629,
@@ -30,7 +31,9 @@ const LOCATION_KEYS = {
 // get 5 days forecasts data
 const getAllForecastData = (locationName) => {
   return axios
-    .get(`${kBaseUrl}/${LOCATION_KEYS[locationName]}?apikey=${WEATHER_API_KEY}`)
+    .get(
+      `${k2BaseUrl}/${LOCATION_KEYS[locationName]}?apikey=${WEATHER_API_KEY}`
+    )
     .then((response) => {
       const organized_data = response.data.DailyForecasts.map((dailyData) => {
         return {
@@ -48,18 +51,62 @@ const getAllForecastData = (locationName) => {
       console.log(error);
     });
 };
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
 
 const EventsPage = () => {
+  const filterMenuOptions = {
+    Category: ["Water Sports", "Educational", "Sightseeing"],
+    Location: ["Hilo", "Kona", "Volcano", "Waimea", "Hamakua"],
+    Type: ["Indoor", "Outdoor"],
+  };
+
   // states lifting:
   // state data: date / tour type / category / location / guests number /
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState("");
   const [forecast, setForecast] = useState([]);
+  const [tours, setTours] = useState([]);
+  const [filters, setFilters] = useState({});
 
   // react-router-loader: events info
+  // --------------------------------------------------------------------------
+  // ----------------------------- filter -------------------------------------
+  // --------------------------------------------------------------------------
+  const transformDate = (dateOption) => {
+    if (dateOption !== "") {
+      const month = (dateOption.getMonth() + 1).toString();
+      const date = dateOption.getDate().toString();
+      const year = dateOption.getFullYear().toString();
+      const formattedDate = month + "/" + date + "/" + year;
+      return formattedDate;
+    } else {
+      return dateOption;
+    }
+  };
 
-  //----------- getting weater data before rendering --------------------
+  const transformFilterRequest = (filters) => {
+    let request = [];
+
+    for (const [key, value] of Object.entries(filters)) {
+      for (const i of value) {
+        if (key === "Type") {
+          if (i === "Indoor") {
+            request.push(`is_outdoor=false`);
+          }
+          if (i === "Outdoor") {
+            request.push(`is_outdoor=true`);
+          }
+        }
+        if (key === "Location") {
+          request.push(`city=${i}`);
+        } else {
+          request.push(`${key.toLowerCase()}=${i.toLowerCase()}`);
+        }
+      }
+    }
+    const requestMessage = request.join("&");
+    return requestMessage;
+  };
+
+  // ----------- getting data before rendering -------------------------
   useEffect(() => {
     getAllForecastData("Hamakua")
       .then((dailyForecast) => {
@@ -71,63 +118,79 @@ const EventsPage = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/tours`)
+      .then((response) => {
+        setTours(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
+      .then((response) => {
+        setTours(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [filters]);
+
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/tours?date=${transformDate(startDate)}`)
+      .then((response) => {
+        console.log("tours:" + response.data);
+        setTours(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [startDate]);
+
   return (
     <main className="main-events">
       <section>
-        <SecNav />
+        <SecNav page={page} />
       </section>
 
-      <Row>
-        <Calendar
-          label="Choose by date"
-          date={startDate}
-          setStartDate={setStartDate}
-        />
-      </Row>
+      <section className="weather-calendar-container">
+        <section className="calendar-container">
+          <h3>Select Tour by Date</h3>
+          <DatePicker
+            placeholderText="Click here to view calendar"
+            variant="secondary"
+            popperPlacement="auto"
+            className="calendar"
+            selected={startDate}
+            onChange={setStartDate}
+          />
+        </section>
 
-      <Row className="weather-section">
-        <Weather
-          forecast={forecast}
-          getAllForecastData={getAllForecastData}
-          setForecast={setForecast}
-        />
-      </Row>
+        <section className="weather-section">
+          <Weather
+            forecast={forecast}
+            getAllForecastData={getAllForecastData}
+            setForecast={setForecast}
+          />
+        </section>
+      </section>
 
       <section className="query-choices">
-        <FilterDropdown />
-        <SortButton />
+        <FilterCheckboxes
+          className="filter-checkbox"
+          filterOptions={filterMenuOptions}
+          selectedFilters={filters}
+          setSelectedFilters={setFilters}
+        />
       </section>
 
       <section className="event-card-container">
-        <Container className="me-auto">
-          <CardGroup className="card-group">
-            <Col>
-              <Link to="/event-info">
-                <EventCard />
-              </Link>
-            </Col>
-            <Col>
-              <Link to="/event-info">
-                <EventCard />
-              </Link>
-            </Col>
-            <Col>
-              <Link to="/event-info">
-                <EventCard />
-              </Link>
-            </Col>
-            <Col>
-              <Link to="/event-info">
-                <EventCard />
-              </Link>
-            </Col>
-            <Col>
-              <Link to="/event-info">
-                <EventCard />
-              </Link>
-            </Col>
-          </CardGroup>
-        </Container>
+        <EventsList tours={tours} />
       </section>
     </main>
   );

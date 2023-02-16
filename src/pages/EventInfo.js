@@ -1,18 +1,40 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import '../App.css'
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import SecNav from "../components/SecNav";
+import { Card } from "react-bootstrap";
+const kBaseUrl = process.env.REACT_APP_BACKEND_URL
+
 
 const EventInfo = () => {
+  const param = useParams();
+  const page = "tour"
+  const [tour, setTourState] = useState({});
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/tours/${param.id}`)
+      .then((response) => {
+        setTourState(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  
+  }, [param.id]);
+  console.log(tour)
   return (
     <main>
-      <section><SecNav /></section>
-      <h1 className="home-title">This is the EventInfo Page</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida,
-        risus at dapibus aliquet, elit quam scelerisque tortor, nec accumsan
-        eros nulla interdum justo. Pellentesque dignissim, sapien et congue
-        rutrum, lorem tortor dapibus turpis, sit amet vestibulum eros mi et
-        odio.
-      </p>
+        <section>
+            <section>
+                <SecNav page={page}/>
+            </section>
+            <section className="">
+              <Card variant="secondary">
+                <Card.Title>{tour.name}</Card.Title>
+                </Card>
+            </section>
+        </section>
     </main>
   );
 };
