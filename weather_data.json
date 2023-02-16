@@ -1,0 +1,40 @@
+{
+  "Headline": {
+    "EffectiveDate": "2023-02-16T13:00:00-10:00",
+    "Severity": 2,
+    "Text": "Rain from Thursday afternoon to Sunday morning can lead to flooding",
+    "Category": "rain",
+    "EndDate": "2023-02-19T13:00:00-10:00"
+  },
+
+  "DailyForecasts": [
+    {
+      "Date": "2023-02-14T07:00:00-10:00",
+      "Temperature": {
+        "Minimum": {
+          "Value": 55,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 70,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+
+      "Day": {
+        "Icon": 14,
+        "IconPhrase": "Partly sunny w/ showers",
+        "HasPrecipitation": true,
+        "PrecipitationType": "Rain",
+        "PrecipitationIntensity": "Light"
+      },
+      "Night": {
+        "Icon": 34,
+        "IconPhrase": "Mostly clear",
+        "HasPrecipitation": false
+      }
+    }
+  ]
+}

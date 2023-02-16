@@ -1,68 +1,122 @@
-import { useState, useEffect } from "react"; 
-import '../App.css'
-import './EventsPage.css'
-import EventsList from '../components/EventsList'
-import Weather from '../components/Weather';
+import { useState, useEffect } from "react";
+import "../App.css";
+import "./EventsPage.css";
+import EventsList from "../components/EventsList";
+import Weather from "../components/Weather";
 import SecNav from "../components/SecNav";
-import axios from 'axios';
+import axios from "axios";
 import FilterCheckboxes from "../components/FilterCheckboxes";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL
+//--------------------- EVENT API CALL ---------------------------------------
+const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 const page = "tours";
+
+// Weather -------------------------------------------------------------------
+// can use eather to return the event suggestion:
+// # Headline.Severity	=> Severity of the headline, displayed as an integer. The lower the number, the greater the severity. 0 = Unknown 1 = Significant 2 = Major 3 = Moderate 4 = Minor 5 = Minimal 6 = Insignificant 7 = Informational
+// # DailyForecasts.Day.HasPrecipitation => bool
+//--------------------- Weather API CALL -------------------------------------
+const k2BaseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day";
+const WEATHER_API_KEY = process.env.REACT_APP_ACCUWEATHER_API_KEY;
+const LOCATION_KEYS = {
+  Hamakua: 2203629,
+  Hilo: 328444,
+  Puna: 2203855,
+  Kona: 337832,
+  Kohala: 2203770,
+};
+
+// get 5 days forecasts data
+const getAllForecastData = (locationName) => {
+  return axios
+    .get(
+      `${k2BaseUrl}/${LOCATION_KEYS[locationName]}?apikey=${WEATHER_API_KEY}`
+    )
+    .then((response) => {
+      const organized_data = response.data.DailyForecasts.map((dailyData) => {
+        return {
+          date: dailyData.Date,
+          tempMin: dailyData.Temperature.Minimum.Value,
+          tempMax: dailyData.Temperature.Maximum.Value,
+          dayIcon: dailyData.Day.Icon,
+          dayIconPhrase: dailyData.Day.IconPhrase,
+          dayHasPrecipitation: dailyData.Day.HasPrecipitation,
+        };
+      });
+      return organized_data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 const EventsPage = () => {
   const filterMenuOptions = {
     Category: ["Water Sports", "Educational", "Sightseeing"],
     Location: ["Hilo", "Kona", "Volcano", "Waimea", "Hamakua"],
-    Type: ["Indoor", "Outdoor"]
-};
+    Type: ["Indoor", "Outdoor"],
+  };
 
-const transformDate = (dateOption) => {
-  if (dateOption !== ''){
-    const month = (dateOption.getMonth() + 1).toString();
-    const date = dateOption.getDate().toString();
-    const year = dateOption.getFullYear().toString();
-    const formattedDate = 'date=' + month + '/' + date + '/' + year; 
-    return (formattedDate)}
-  else{
-    return dateOption
-  }
-}
-
-const transformFilterRequest= (filters) =>{
-  let request=[]
-
-  for (const [key, value] of Object.entries(filters)){
-    for (const i of value){
-      if (key === "Type"){
-        if (i === 'Indoor'){
-          request.push(`is_outdoor=false`)
-        }
-        if(i === "Outdoor"){
-          request.push(`is_outdoor=true`)
-        }}
-
-      if (key === "Location"){
-        request.push(`city=${i}`)
-      }
-      if (key === "Category"){
-        request.push(`category=${i.toLowerCase()}`)
-      }
-      if (key === "date"){
-        request.push(`date=${i.toLowerCase()}`)
-      }
-    }}
-    
-  
-  const requestMessage = request.join('&')
-  return requestMessage;
-}
-// ----------------STATE---------------
+  // states lifting:
+  // state data: date / tour type / category / location / guests number /
+  const [startDate, setStartDate] = useState("");
+  const [forecast, setForecast] = useState([]);
   const [tours, setTours] = useState([]);
   const [filters, setFilters] = useState({});
-  const [startDate, setStartDate] = useState('');
+
+  // react-router-loader: events info
+  // --------------------------------------------------------------------------
+  // ----------------------------- filter -------------------------------------
+  // --------------------------------------------------------------------------
+  const transformDate = (dateOption) => {
+    if (dateOption !== "") {
+      const month = (dateOption.getMonth() + 1).toString();
+      const date = dateOption.getDate().toString();
+      const year = dateOption.getFullYear().toString();
+      const formattedDate = month + "/" + date + "/" + year;
+      return formattedDate;
+    } else {
+      return dateOption;
+    }
+  };
+
+  const transformFilterRequest = (filters) => {
+    let request = [];
+
+    for (const [key, value] of Object.entries(filters)) {
+      for (const i of value) {
+        if (key === "Type") {
+          if (i === "Indoor") {
+            request.push(`is_outdoor=false`);
+          }
+          if (i === "Outdoor") {
+            request.push(`is_outdoor=true`);
+          }
+        }
+        if (key === "Location") {
+          request.push(`city=${i}`);
+        } else {
+          request.push(`${key.toLowerCase()}=${i.toLowerCase()}`);
+        }
+      }
+    }
+    const requestMessage = request.join("&");
+    return requestMessage;
+  };
+
+  // ----------- getting data before rendering -------------------------
+  useEffect(() => {
+    getAllForecastData("Hamakua")
+      .then((dailyForecast) => {
+        // console.log(dailyForecast);
+        setForecast(dailyForecast);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     axios
@@ -90,7 +144,7 @@ const transformFilterRequest= (filters) =>{
     axios
       .get(`${kBaseUrl}/tours?${transformDate(startDate)}`)
       .then((response) => {
-        console.log("tours:" + response.data)
+        console.log("tours:" + response.data);
         setTours(response.data);
       })
       .catch((error) => {
@@ -99,40 +153,46 @@ const transformFilterRequest= (filters) =>{
   }, [startDate]);
 
   return (
-  <main className="main-events">
-    <section>
-    <SecNav page={page}/>
-    </section>
+    <main className="main-events">
+      <section>
+        <SecNav page={page} />
+      </section>
 
-    <section className="weather-calendar-container">
-    <section className="calendar-container">
-        <h3>Select Tour by Date</h3>
-        <DatePicker 
+      <section className="weather-calendar-container">
+        <section className="calendar-container">
+          <h3>Select Tour by Date</h3>
+          <DatePicker
             placeholderText="Click here to view calendar"
             variant="secondary"
             popperPlacement="auto"
-            className="calendar" 
-            selected={startDate} 
-            onChange={(date) => setStartDate(date)}/>
-        </section> 
+            className="calendar"
+            selected={startDate}
+            onChange={setStartDate}
+          />
+        </section>
 
-      <section>
-        <Weather/>
+        <section className="weather-section">
+          <Weather
+            forecast={forecast}
+            getAllForecastData={getAllForecastData}
+            setForecast={setForecast}
+          />
+        </section>
       </section>
-    </section>
 
-    <section className="query-choices">
-      <FilterCheckboxes className="filter-checkbox"
-        filterOptions={filterMenuOptions}
-        selectedFilters={filters}
-        setSelectedFilters={setFilters}/>
-    </section>
+      <section className="query-choices">
+        <FilterCheckboxes
+          className="filter-checkbox"
+          filterOptions={filterMenuOptions}
+          selectedFilters={filters}
+          setSelectedFilters={setFilters}
+        />
+      </section>
 
-    <section className="event-card-container">
-      <EventsList tours={tours}/>
-    </section>
+      <section className="event-card-container">
+        <EventsList tours={tours} />
+      </section>
     </main>
-
   );
 };
 
