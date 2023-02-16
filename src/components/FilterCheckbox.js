@@ -1,4 +1,5 @@
 import { Dropdown } from "react-bootstrap";
+
 const FilterCheckbox =({category, option, checked, onChange}) =>
     {  return (
         <Dropdown.Item>

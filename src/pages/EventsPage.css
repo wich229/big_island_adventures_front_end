@@ -7,12 +7,19 @@
     justify-content: center;
 }
 
-.event-card-container{
-    margin: .5rem;
-    padding: 0;
-    min-height: 100%;
-}
-
 .weather-calendar-container{
     margin-bottom: 2rem;
 }
+
+.calendar{
+    margin: 0 auto;
+    border-radius:10px;
+    text-align: center;
+}
+
+.calendar-container{
+    margin-bottom: 5rem;
+    text-align: center;
+
+}
+

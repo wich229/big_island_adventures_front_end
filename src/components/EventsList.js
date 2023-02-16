@@ -6,7 +6,7 @@ import './EventsList.css'
 const EventsList = ({tours}) => {
     const toursList = tours.map((tour) => {
         return (
-            <Col className="me-1">
+            <Col className="col">
             <EventCard tour={tour}/>         
             </Col>
         );

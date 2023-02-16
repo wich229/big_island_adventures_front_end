@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useState, React} from "react";
 import './Calendar.css'
 
-const Calendar = () => {
+const Calendar = ({}) => {
     const [startDate, setStartDate] = useState(new Date());
     return (
         <section className="calendar-container">

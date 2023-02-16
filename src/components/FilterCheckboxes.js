@@ -1,11 +1,11 @@
 import FilterCheckbox from "./FilterCheckbox";
 import { Dropdown } from "react-bootstrap";
+import './FilterCheckboxes.css'
 
 const FilterCheckboxes =({filterOptions, selectedFilters, setSelectedFilters}) => {
         const filterEntries = Object.entries(filterOptions)
         const handleFilterChange = (event) => {
             const { name, value, checked } = event.target;
-            console.log({ name, value, checked })
             setSelectedFilters((prevFilters) => ({
                 ...prevFilters,
                 [name]: checked ? [...(prevFilters[name] || []), value] : prevFilters[name].filter((option) => option !== value),
@@ -13,8 +13,8 @@ const FilterCheckboxes =({filterOptions, selectedFilters, setSelectedFilters}) =
         };
 
         return (
-        <section>
-            <Dropdown><Dropdown.Toggle variant="success">Filter</Dropdown.Toggle>
+        <section className="filter-btn">
+            <Dropdown><Dropdown.Toggle variant="secondary">Filter</Dropdown.Toggle>
             <Dropdown.Menu className="menu">
             {filterEntries.map(([category, options]) => (
             <section key={category}>
@@ -28,7 +28,7 @@ const FilterCheckboxes =({filterOptions, selectedFilters, setSelectedFilters}) =
                     onChange={handleFilterChange}
                 />
                 ))}
-            </section>
+        </section>
             ))}</Dropdown.Menu></Dropdown>
         </section>
         );

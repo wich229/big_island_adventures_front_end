@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import '../App.css'
 import './EventsPage.css'
 import EventsList from '../components/EventsList'
-import Calendar from '../components/Calendar';
 import Weather from '../components/Weather';
 import SecNav from "../components/SecNav";
-import SortButton from "../components/SortButton";
 import axios from 'axios';
 import FilterCheckboxes from "../components/FilterCheckboxes";
-  
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL
 const page = "tours";
 
@@ -19,15 +19,23 @@ const EventsPage = () => {
     Type: ["Indoor", "Outdoor"]
 };
 
+const transformDate = (dateOption) => {
+  if (dateOption !== ''){
+    const month = (dateOption.getMonth() + 1).toString();
+    const date = dateOption.getDate().toString();
+    const year = dateOption.getFullYear().toString();
+    const formattedDate = month + '/' + date + '/' + year; 
+    return (formattedDate)}
+  else{
+    return dateOption
+  }
+}
+
+
 const transformFilterRequest= (filters) =>{
   let request=[]
-  const categories = Object.keys(filters)
-  console.log(categories)
 
   for (const [key, value] of Object.entries(filters)){
-    console.log(`key: ${key}`)
-    console.log(`value: ${value}`)
-    console.log(typeof value)
     for (const i of value){
       if (key === "Type"){
         if (i === 'Indoor'){
@@ -46,18 +54,13 @@ const transformFilterRequest= (filters) =>{
     
   }
   const requestMessage = request.join('&')
-  console.log(`request: ${requestMessage}`)
   return requestMessage;
 }
 // ----------------STATE---------------
   const [tours, setTours] = useState([]);
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState({});
+  const [startDate, setStartDate] = useState('');
 
-  const print =(array)=>{
-  array.forEach(function(entry) {
-    console.log(entry);
-  });
-}
   useEffect(() => {
     axios
       .get(`${kBaseUrl}/tours`)
@@ -73,10 +76,6 @@ const transformFilterRequest= (filters) =>{
     axios
       .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
       .then((response) => {
-        print([filters])
-        console.log(`filters in eventspage: ${filters}`)
-        print([response.data])
-        console.log(`response data in events page: ${[...response.data]}`)
         setTours(response.data);
       })
       .catch((error) => {
@@ -84,8 +83,17 @@ const transformFilterRequest= (filters) =>{
       });
   }, [filters]);
 
-
-  console.log(`events page: ${filters}`)
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/tours?date=${transformDate(startDate)}`)
+      .then((response) => {
+        console.log("tours:" + response.data)
+        setTours(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [startDate]);
 
   return (
   <main className="main-events">
@@ -94,9 +102,16 @@ const transformFilterRequest= (filters) =>{
     </section>
 
     <section className="weather-calendar-container">
-      <section>
-        <Calendar label="Select Tour by Date"/>
-      </section>
+    <section className="calendar-container">
+        <h3>Select Tour by Date</h3>
+        <DatePicker 
+            placeholderText="Click here to view calendar"
+            variant="secondary"
+            popperPlacement="auto"
+            className="calendar" 
+            selected={startDate} 
+            onChange={(date) => setStartDate(date)}/>
+        </section> 
 
       <section>
         <Weather/>
@@ -108,7 +123,6 @@ const transformFilterRequest= (filters) =>{
         filterOptions={filterMenuOptions}
         selectedFilters={filters}
         setSelectedFilters={setFilters}/>
-      <SortButton/>
     </section>
 
     <section className="event-card-container">
