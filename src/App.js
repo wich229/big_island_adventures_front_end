@@ -7,21 +7,20 @@ import Home from "./pages/Home";
 import EventsPage from "./pages/EventsPage";
 import EventInfo from "./pages/EventInfo";
 import LoginSignUp from "./pages/LoginSignUp";
-import About from "./pages/About"
+import About from "./pages/About";
 import ErrorPage from "./pages/Error";
-
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
-      { path: "/", element: <Home /> },
+      { index: true, element: <Home /> },
       { path: "/login_signup", element: <LoginSignUp /> },
       { path: "/tours", element: <EventsPage /> },
-      { path: "/tours/:id", element: <EventInfo/>},
+      { path: "/tours/:id", element: <EventInfo /> },
       { path: "/about", element: <About /> },
-      { path: "/*", element: <ErrorPage/>}
+      { path: "/*", element: <ErrorPage /> },
     ],
   },
 ]);
