@@ -9,7 +9,8 @@ import EventInfo from "./pages/EventInfo";
 import LoginSignUp from "./pages/LoginSignUp";
 import About from "./pages/About"
 import ErrorPage from "./pages/Error";
-
+import Client from "./pages/Client";
+import ConfirmBooking from "./pages/ConfirmBooking";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,8 @@ const router = createBrowserRouter([
       { path: "/tours", element: <EventsPage /> },
       { path: "/tours/:id", element: <EventInfo/>},
       { path: "/about", element: <About /> },
+      { path: "/client", element: <Client /> },
+      { path: "/confirmation", element: <ConfirmBooking /> },
       { path: "/*", element: <ErrorPage/>}
     ],
   },

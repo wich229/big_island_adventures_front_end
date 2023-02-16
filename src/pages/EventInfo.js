@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import '../App.css'
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import SecNav from "../components/SecNav";
 import { Card, Button} from "react-bootstrap";
@@ -27,7 +27,6 @@ const EventInfo = () => {
 
   return (
     <main>
-        <section>
             <section>
                 <SecNav page={page}/>
             </section>
@@ -38,13 +37,16 @@ const EventInfo = () => {
                 <Card.Title className="event-info-title">{tour.name}</Card.Title>
                 <Card.Text className="event-info-text">{tour.description}</Card.Text>
                 <section className="event-info-btns">
+                <Link to="/tours">
                 <Button variant="secondary" className="go-back-btn">Go Back</Button>
+                </Link> 
+                <Link to="/client">
                 <Button variant="secondary" className="book-tour-btn">Book tour</Button>
+                </Link>
                 </section>
                 </section>
               </Card>
             </section>
-        </section>
     </main>
   );
 };

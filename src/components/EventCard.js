@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import './EventCard.css'
-import { Link,} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 
 const EventCard = ({tour}) => {

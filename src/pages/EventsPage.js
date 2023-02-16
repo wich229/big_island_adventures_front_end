@@ -24,13 +24,12 @@ const transformDate = (dateOption) => {
     const month = (dateOption.getMonth() + 1).toString();
     const date = dateOption.getDate().toString();
     const year = dateOption.getFullYear().toString();
-    const formattedDate = month + '/' + date + '/' + year; 
+    const formattedDate = 'date=' + month + '/' + date + '/' + year; 
     return (formattedDate)}
   else{
     return dateOption
   }
 }
-
 
 const transformFilterRequest= (filters) =>{
   let request=[]
@@ -44,15 +43,19 @@ const transformFilterRequest= (filters) =>{
         if(i === "Outdoor"){
           request.push(`is_outdoor=true`)
         }}
+
       if (key === "Location"){
         request.push(`city=${i}`)
       }
-    
-    else{
-    request.push(`${key.toLowerCase()}=${i.toLowerCase()}`)
+      if (key === "Category"){
+        request.push(`category=${i.toLowerCase()}`)
+      }
+      if (key === "date"){
+        request.push(`date=${i.toLowerCase()}`)
+      }
     }}
     
-  }
+  
   const requestMessage = request.join('&')
   return requestMessage;
 }
@@ -81,11 +84,11 @@ const transformFilterRequest= (filters) =>{
       .catch((error) => {
         console.log(error);
       });
-  }, [filters]);
+  }, [filters, startDate]);
 
   useEffect(() => {
     axios
-      .get(`${kBaseUrl}/tours?date=${transformDate(startDate)}`)
+      .get(`${kBaseUrl}/tours?${transformDate(startDate)}`)
       .then((response) => {
         console.log("tours:" + response.data)
         setTours(response.data);
