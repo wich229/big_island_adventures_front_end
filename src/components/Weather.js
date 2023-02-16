@@ -15,7 +15,7 @@ const Weather = (props) => {
           />
         </Row>
         <Row className="temps">
-          {eachData.tempMin} / {eachData.tempMax}
+          {eachData.tempMin} °F / {eachData.tempMax} °F
         </Row>
         {/* <Row className="phrase">{eachData.dayIconPhrase}</Row> */}
       </Card>
