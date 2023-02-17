@@ -8,7 +8,8 @@ const FilterCheckboxes =({filterOptions, selectedFilters, setSelectedFilters}) =
             const { name, value, checked } = event.target;
             setSelectedFilters((prevFilters) => ({
                 ...prevFilters,
-                [name]: checked ? [...(prevFilters[name] || []), value] : prevFilters[name].filter((option) => option !== value),
+                [name]: checked ? [...(prevFilters[name] || []), value] : 
+                prevFilters[name].filter((option) => option !== value),
             }));
         };
 

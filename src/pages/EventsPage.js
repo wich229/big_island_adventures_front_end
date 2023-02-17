@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"; 
 import '../App.css'
 import './EventsPage.css'
+import { Button } from "react-bootstrap";
 import EventsList from '../components/EventsList'
 import Weather from '../components/Weather';
 import SecNav from "../components/SecNav";
@@ -13,90 +14,99 @@ const kBaseUrl = process.env.REACT_APP_BACKEND_URL
 const page = "tours";
 
 const EventsPage = () => {
+
+  // menu options
   const filterMenuOptions = {
-    Category: ["Water Sports", "Educational", "Sightseeing"],
-    Location: ["Hilo", "Kona", "Volcano", "Waimea", "Hamakua"],
+    Category: ["Sports", "Sightseeing", "Educational"],
+    Location: ["Hilo", "Kona", "Hakalau"],
     Type: ["Indoor", "Outdoor"]
 };
 
-const transformDate = (dateOption) => {
-  if (dateOption !== ''){
-    const month = (dateOption.getMonth() + 1).toString();
-    const date = dateOption.getDate().toString();
-    const year = dateOption.getFullYear().toString();
-    const formattedDate = 'date=' + month + '/' + date + '/' + year; 
-    return (formattedDate)}
-  else{
-    return dateOption
+// transforms date to format we need in order to query
+  const transformDate = (dateOption) => {
+    if (dateOption !== null){
+      const month = (dateOption.getMonth() + 1).toString();
+      const date = dateOption.getDate().toString();
+      const year = dateOption.getFullYear().toString();
+      const formattedDate =  month + '/' + date + '/' + year; 
+      return (formattedDate)}
+    else{
+      return dateOption
+    }
   }
-}
 
-const transformFilterRequest= (filters) =>{
-  let request=[]
+  // transforms the filter request to make queries
+  const transformFilterRequest= (filters) =>{
+    let request=[]
+    for (const [key, value] of Object.entries(filters)){
+      for (const i of value){
+        if (key === "Type"){
+          if (i === 'Indoor'){
+            request.push(`is_outdoor=false`)
+          }
+          if(i === "Outdoor"){
+            request.push(`is_outdoor=true`)
+          }}
 
-  for (const [key, value] of Object.entries(filters)){
-    for (const i of value){
-      if (key === "Type"){
-        if (i === 'Indoor'){
-          request.push(`is_outdoor=false`)
+        if (key === "Location"){
+          request.push(`city=${i}`)
         }
-        if(i === "Outdoor"){
-          request.push(`is_outdoor=true`)
-        }}
+        if (key === "Category"){
+          console.log("Category" + i)
+          request.push(`category=${i}`)
+        }
+        }
+        if (key === "date"){
+          request.push(`date=${value}`)
+          console.log(request)
+      }}
+    const requestMessage = request.join('&')
+    console.log(requestMessage)
+    return requestMessage;
+  }
 
-      if (key === "Location"){
-        request.push(`city=${i}`)
-      }
-      if (key === "Category"){
-        request.push(`category=${i.toLowerCase()}`)
-      }
-      if (key === "date"){
-        request.push(`date=${i.toLowerCase()}`)
-      }
-    }}
-    
-  
-  const requestMessage = request.join('&')
-  return requestMessage;
-}
 // ----------------STATE---------------
   const [tours, setTours] = useState([]);
   const [filters, setFilters] = useState({});
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(null);
+
+  const getAllTours = () => {
+    axios
+    .get(`${kBaseUrl}/tours`)
+    .then((response) => {
+      setTours(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+  const handleShowAll = () => {
+      setStartDate(null)
+      setFilters({});
+      getAllTours();
+    }
+  
+  const handleDateChange = (date) => {
+    setStartDate(date)
+    setFilters({"date":transformDate(date)})
+  }
 
   useEffect(() => {
-    axios
-      .get(`${kBaseUrl}/tours`)
-      .then((response) => {
-        setTours(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getAllTours();
   }, []);
 
   useEffect(() => {
+    console.log("category in use effect" + Object.entries(filters))
     axios
       .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
       .then((response) => {
         setTours(response.data);
+        console.log("response data" + Object.entries(response.data))
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [filters, startDate]);
-
-  useEffect(() => {
-    axios
-      .get(`${kBaseUrl}/tours?${transformDate(startDate)}`)
-      .then((response) => {
-        console.log("tours:" + response.data)
-        setTours(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [startDate]);
+  }, [filters]);
 
   return (
   <main className="main-events">
@@ -113,7 +123,7 @@ const transformFilterRequest= (filters) =>{
             popperPlacement="auto"
             className="calendar" 
             selected={startDate} 
-            onChange={(date) => setStartDate(date)}/>
+            onChange={(date) => handleDateChange(date)}/>
         </section> 
 
       <section>
@@ -122,10 +132,14 @@ const transformFilterRequest= (filters) =>{
     </section>
 
     <section className="query-choices">
+      <section>
+        <Button className="show-all-btn" onClick={handleShowAll} variant="secondary">Show All</Button>
+      </section>
       <FilterCheckboxes className="filter-checkbox"
         filterOptions={filterMenuOptions}
         selectedFilters={filters}
         setSelectedFilters={setFilters}/>
+      
     </section>
 
     <section className="event-card-container">
