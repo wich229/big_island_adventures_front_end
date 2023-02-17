@@ -12,7 +12,17 @@ const EventInfo = () => {
   const param = useParams();
   const page = "tour"
   const [tour, setTourState] = useState({});
-  
+  const date = new Date(tour.time);
+  const options = {
+    year: 'numeric', 
+    month: 'numeric', 
+    day: 'numeric',
+    hour12: true, 
+    hour: 'numeric', 
+    minute: 'numeric'
+  };
+  const formattedDate = date.toLocaleString('en-US', options);
+
   useEffect(() => {
     axios
       .get(`${kBaseUrl}/tours/${param.id}`)
@@ -35,6 +45,7 @@ const EventInfo = () => {
                 <Card.Img className="event-info-img" src={tour.photo_url}></Card.Img>
                 <section className="title-text-btn-container">
                 <Card.Title className="event-info-title">{tour.name}</Card.Title>
+                <Card.Text>{'Date: ' + formattedDate}</Card.Text>
                 <Card.Text className="event-info-text">{tour.description}</Card.Text>
                 <section className="event-info-btns">
                 <Link to="/tours">
