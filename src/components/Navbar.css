@@ -1,15 +1,26 @@
-.BIA-logo-text{
-    font-size: 2em;
+.BIA-logo-text {
+  font-size: 2em;
 }
 
-.BIA-logo-link{
-    text-decoration: none ;
+.Nav {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.344);
+  justify-content: center;
+  align-items: center;
 }
 
-.turtle-logo{
-    margin-right:1rem;
+.navbar-container {
+  margin: 0;
 }
 
-.Nav{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.344);
+.navbar-container > .container {
+  width: 90%;
+}
+
+.BIA-logo-link {
+  text-decoration: none;
+}
+
+.turtle-logo {
+  width: 28vw;
+  height: 7%;
 }

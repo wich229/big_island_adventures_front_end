@@ -1,0 +1,44 @@
+.event-info{
+    width:50%;
+    min-width:50rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    border-radius: 15px;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    border: none;
+}
+
+.event-info-img{
+    height:30rem;
+    flex: 1;
+    border-radius: 15px;
+}
+
+.event-info-title{
+}
+
+.event-info-text{
+}
+
+.title-text-btn-container{
+    flex:1;
+    width: 5rem;
+    text-align: center;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-top: 0;
+}
+
+.event-info-btns{
+    text-align: center;
+}
+
+.go-back-btn{
+    margin: 1rem;
+}
+
+.book-tour-btn{
+    margin: 1rem;
+}

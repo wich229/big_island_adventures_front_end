@@ -8,8 +8,8 @@ const SecNav = ({page}) => {
         <ul className="booking-steps">
           <li className={page === 'tours' ? 'black-bg': 'default-li'}>TOURS</li>
           <li className={page === 'tour' ? 'black-bg': 'default-li'}>TOUR INFO</li>
-          <li className={page === 'client' ? 'black-bg': 'default-li'}>CLIENT</li>
-          <li className={page === 'confirmation' ? 'black-bg': 'default-li'}>CONFIRMATION</li>
+          <li className={page === 'client' ? 'black-bg': 'default-li'}>BOOK TOUR</li>
+          <li className={page === 'confirm' ? 'black-bg': 'default-li'}>CONFIRMATION</li>
         </ul>
       </section>
     </>

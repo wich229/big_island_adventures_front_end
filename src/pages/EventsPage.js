@@ -138,11 +138,11 @@ const EventsPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [filters]);
+  }, [filters, startDate]);
 
   useEffect(() => {
     axios
-      .get(`${kBaseUrl}/tours?date=${transformDate(startDate)}`)
+      .get(`${kBaseUrl}/tours?${transformDate(startDate)}`)
       .then((response) => {
         console.log("tours:" + response.data);
         setTours(response.data);
@@ -189,7 +189,7 @@ const EventsPage = () => {
         />
       </section>
 
-      <section className="event-card-container">
+      <section className="event-section pt-5 pb-5">
         <EventsList tours={tours} />
       </section>
     </main>
