@@ -189,7 +189,7 @@ const EventsPage = () => {
         />
       </section>
 
-      <section className="event-card-container">
+      <section className="event-section pt-5 pb-5">
         <EventsList tours={tours} />
       </section>
     </main>
