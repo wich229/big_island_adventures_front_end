@@ -1,8 +1,14 @@
 import React from "react";
-import LoginSignUpCard from "../components/LoginSignUpCard";
 
+import SignUpCard from "../components/SignUpCard";
+import LogInCard from "../components/LogInCard";
 const LoginSignUp = () => {
-  return <LoginSignUpCard />;
+  return (
+    <div>
+      <SignUpCard />
+      <LogInCard />
+    </div>
+  );
 };
 
 export default LoginSignUp;
