@@ -11,6 +11,7 @@ import About from "./pages/About";
 import ErrorPage from "./pages/Error";
 import Client from "./pages/Client";
 import ConfirmBooking from "./pages/ConfirmBooking";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "/about", element: <About /> },
       { path: "/client", element: <Client /> },
       { path: "/confirmation", element: <ConfirmBooking /> },
+      { path: "/dashboard", element: <Dashboard /> },
       { path: "/*", element: <ErrorPage /> },
     ],
   },
