@@ -22,7 +22,7 @@ const router = createBrowserRouter([
       { path: "/tours", element: <EventsPage /> },
       { path: "/tours/:id", element: <EventInfo/>},
       { path: "/about", element: <About /> },
-      { path: "/client", element: <Client /> },
+      { path: "/tours/client/:id", element: <Client /> },
       { path: "/confirmation", element: <ConfirmBooking /> },
       { path: "/*", element: <ErrorPage/>}
     ],

@@ -96,12 +96,10 @@ const EventsPage = () => {
   }, []);
 
   useEffect(() => {
-    console.log("category in use effect" + Object.entries(filters))
     axios
       .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
       .then((response) => {
         setTours(response.data);
-        console.log("response data" + Object.entries(response.data))
       })
       .catch((error) => {
         console.log(error);
@@ -125,7 +123,6 @@ const EventsPage = () => {
             selected={startDate} 
             onChange={(date) => handleDateChange(date)}/>
         </section> 
-
       <section>
         <Weather/>
       </section>
@@ -139,7 +136,6 @@ const EventsPage = () => {
         filterOptions={filterMenuOptions}
         selectedFilters={filters}
         setSelectedFilters={setFilters}/>
-      
     </section>
 
     <section className="event-card-container">

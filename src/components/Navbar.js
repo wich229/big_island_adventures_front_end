@@ -15,7 +15,7 @@ function TopNav() {
           <Link className="BIA-logo-link" to="/">
             <Navbar.Brand 
             href="#home" className="BIA-logo-text">
-            <img className="turtle-logo" src={logo2} height="75" 
+            <img className="turtle-logo" src={logo2} height="60" 
             alt="Turtle logo"/>
             </Navbar.Brand>
           </Link>

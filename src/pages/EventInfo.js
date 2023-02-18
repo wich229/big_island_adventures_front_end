@@ -10,7 +10,7 @@ const kBaseUrl = process.env.REACT_APP_BACKEND_URL
 
 const EventInfo = () => {
   const param = useParams();
-  const page = "tour"
+  const page = "client"
   const [tour, setTourState] = useState({});
   const date = new Date(tour.time);
   const options = {
@@ -43,6 +43,7 @@ const EventInfo = () => {
             <section >
               <Card className="event-info" variant="secondary">
                 <Card.Img className="event-info-img" src={tour.photo_url}></Card.Img>
+                <section className="info-container">
                 <section className="title-text-btn-container">
                 <Card.Title className="event-info-title">{tour.name}</Card.Title>
                 <Card.Text>{'Date: ' + formattedDate}</Card.Text>
@@ -51,9 +52,10 @@ const EventInfo = () => {
                 <Link to="/tours">
                 <Button variant="secondary" className="go-back-btn">Go Back</Button>
                 </Link> 
-                <Link to="/client">
+                <Link to={`/tours/client/${param.id}`}>
                 <Button variant="secondary" className="book-tour-btn">Book tour</Button>
                 </Link>
+                </section>
                 </section>
                 </section>
               </Card>

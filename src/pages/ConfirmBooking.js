@@ -8,7 +8,6 @@ const ConfirmBooking = () => {
             <section>
                     <SecNav page={page}/>
             </section>
-    
         </main>
         )
 }

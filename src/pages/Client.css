@@ -1,0 +1,55 @@
+.booking-form{
+    margin: 0 auto;
+    border:1px solid rgba(0, 0, 0, 0.228);
+    border-radius: 15px;
+    padding: 1rem;
+    margin-top:4%;
+    width: 20rem;
+}
+
+.ticket-number{
+    width:3rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.tickets{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.when-where{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.when{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.where{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    white-space: 'pre-wrap';
+    overflow-wrap: 'break-word';
+    max-width: 10rem;
+}
+
+.nav-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.go-back-btn{
+    margin: 1rem;
+}
+
+.review-btn{
+    margin: 1rem;
+}
+
+.ticket-label{
+}
