@@ -57,7 +57,7 @@ const EventsPage = () => {
   // menu options
   const filterMenuOptions = {
     Category: ["Sports", "Sightseeing", "Educational"],
-    Location: ["Hilo", "Kona", "Hakalau"],
+    Location: ["Hamakua", "Hilo", "Puna", "Kona", "Hakalau"],
     Type: ["Indoor", "Outdoor"],
   };
 
@@ -69,6 +69,16 @@ const EventsPage = () => {
   const [filters, setFilters] = useState({});
 
   // react-router-loader: events info
+  // --------------------------------------------------------------------------
+  // ----------------------------- weather ------------------------------------
+  // --------------------------------------------------------------------------
+  // getting location data for the weather function
+  const getLacationForWeather = (filters) => {
+    for (const [key, value] of Object.entries(filters)) {
+      if (key === "Location") return value;
+    }
+  };
+
   // --------------------------------------------------------------------------
   // ----------------------------- filter -------------------------------------
   // --------------------------------------------------------------------------
@@ -141,7 +151,9 @@ const EventsPage = () => {
 
   // ----------- getting data before rendering -------------------------
   useEffect(() => {
-    getAllForecastData("Hamakua")
+    let selectLocation = "Hamakua";
+    if (filters === true) selectLocation = getLacationForWeather(filters);
+    getAllForecastData(selectLocation)
       .then((dailyForecast) => {
         // console.log(dailyForecast);
         setForecast(dailyForecast);
@@ -156,7 +168,7 @@ const EventsPage = () => {
   }, []);
 
   useEffect(() => {
-    console.log("category in use effect" + Object.entries(filters));
+    console.log("category in use effect " + Object.entries(filters));
     axios
       .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
       .then((response) => {
@@ -179,7 +191,7 @@ const EventsPage = () => {
         <section className="calendar-container">
           <h3>Select Tour by Date</h3>
           <DatePicker
-            placeholderText="Click here to view calendar"
+            placeholderText="Select Date"
             variant="secondary"
             popperPlacement="auto"
             className="calendar"
@@ -187,8 +199,10 @@ const EventsPage = () => {
             onChange={(date) => handleDateChange(date)}
           />
         </section>
-
         <section className="weather-section">
+          <section className="weather-location">
+            <h4>Name</h4>
+          </section>
           <Weather
             forecast={forecast}
             getAllForecastData={getAllForecastData}

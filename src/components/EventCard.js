@@ -24,7 +24,7 @@ const EventCard = ({ tour }) => {
           variant="top"
           src={tour.photo_url}
         />
-        <Card.Body className="card-body">
+        <Card.Body className="card-body d-flex flex-column">
           <Card.Text>{"Date: " + formattedDate}</Card.Text>
           <Card.Title className="card-title">{tour.name}</Card.Title>
           <Link to={`/tours/${tour.id}`}>

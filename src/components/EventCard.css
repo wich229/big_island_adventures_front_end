@@ -2,22 +2,23 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   width: auto;
-  height: 350px;
-  object-fit: cover;
+  height: 300px;
+  object-fit: fill;
 }
 
 .event-card {
   border-radius: 15px;
   width: 300px;
-  height: 600px;
+  height: 500px;
   margin: 10px;
-}
-
-.card-title {
-  height: 5rem;
 }
 
 .card-body {
   height: 200px;
   width: 100%;
+  justify-content: space-between;
+}
+
+.card-title {
+  height: 5rem;
 }
