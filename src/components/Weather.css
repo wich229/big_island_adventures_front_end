@@ -1,0 +1,37 @@
+.weather-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.eachDay {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #039ea9;
+  box-shadow: rgba(150, 150, 150, 0.19) 0px 10px 20px,
+    rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  color: whitesmoke;
+  border-style: none;
+  margin: 0.5rem;
+  font-size: small;
+  width: 7rem;
+  height: 12rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.eachDay > div {
+  margin: 0.2rem;
+}
+
+.day {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.icon {
+  width: 70%;
+}
+
+.phrase {
+  inline-size: min-content;
+}

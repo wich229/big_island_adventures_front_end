@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import EventsPage from "./pages/EventsPage";
 import EventInfo from "./pages/EventInfo";
 import LoginSignUp from "./pages/LoginSignUp";
-import About from "./pages/About"
+import About from "./pages/About";
 import ErrorPage from "./pages/Error";
 import Client from "./pages/Client";
 import ConfirmBooking from "./pages/ConfirmBooking";
@@ -20,11 +20,11 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/login_signup", element: <LoginSignUp /> },
       { path: "/tours", element: <EventsPage /> },
-      { path: "/tours/:id", element: <EventInfo/>},
+      { path: "/tours/:id", element: <EventInfo /> },
       { path: "/about", element: <About /> },
       { path: "/client", element: <Client /> },
       { path: "/confirmation", element: <ConfirmBooking /> },
-      { path: "/*", element: <ErrorPage/>}
+      { path: "/*", element: <ErrorPage /> },
     ],
   },
 ]);
