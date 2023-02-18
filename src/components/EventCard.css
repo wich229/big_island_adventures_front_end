@@ -1,8 +1,9 @@
 .event-card-img {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  height: 400px;
-  width: 100%;
+  width: auto;
+  height: 350px;
+  object-fit: cover;
 }
 
 .event-card {

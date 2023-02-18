@@ -24,6 +24,10 @@
   border: none;
 }
 
+.book-now-button:hover {
+  background-color: #856b4c;
+}
+
 .home-title {
   font-size: 5rem;
   color: rgb(255, 255, 255);

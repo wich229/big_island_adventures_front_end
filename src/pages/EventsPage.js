@@ -10,7 +10,7 @@ import FilterCheckboxes from "../components/FilterCheckboxes";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-//--------------------- EVENT API CALL ---------------------------------------
+//--------------------- TOURS API CALL ---------------------------------------
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 const page = "tours";
 
@@ -117,18 +117,6 @@ const EventsPage = () => {
     return requestMessage;
   };
 
-  // ----------- getting data before rendering -------------------------
-  useEffect(() => {
-    getAllForecastData("Hamakua")
-      .then((dailyForecast) => {
-        // console.log(dailyForecast);
-        setForecast(dailyForecast);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   const getAllTours = () => {
     axios
       .get(`${kBaseUrl}/tours`)
@@ -150,6 +138,18 @@ const EventsPage = () => {
     setStartDate(date);
     setFilters({ date: transformDate(date) });
   };
+
+  // ----------- getting data before rendering -------------------------
+  useEffect(() => {
+    getAllForecastData("Hamakua")
+      .then((dailyForecast) => {
+        // console.log(dailyForecast);
+        setForecast(dailyForecast);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     getAllTours();
