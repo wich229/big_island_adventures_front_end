@@ -35,3 +35,8 @@
 .show-all-btn {
   margin-right: 1rem;
 }
+
+.page-btns{
+    margin: 2rem;
+    text-align: center;
+}

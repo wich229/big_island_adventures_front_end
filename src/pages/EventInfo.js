@@ -41,6 +41,7 @@ const EventInfo = () => {
       <section>
         <Card className="event-info" variant="secondary">
           <Card.Img className="event-info-img" src={tour.photo_url}></Card.Img>
+                <section className="info-container">
           <section className="title-text-btn-container">
             <Card.Title className="event-info-title">{tour.name}</Card.Title>
             <Card.Text>{"Date: " + formattedDate}</Card.Text>
@@ -53,7 +54,7 @@ const EventInfo = () => {
                   Go Back
                 </Button>
               </Link>
-              <Link to="/client">
+              <Link to={`/tours/client/${param.id}`}>
                 <Button variant="secondary" className="book-tour-btn">
                   Book tour
                 </Button>
@@ -64,6 +65,7 @@ const EventInfo = () => {
               </Link>
             </section>
           </section>
+                </section>
         </Card>
       </section>
     </main>

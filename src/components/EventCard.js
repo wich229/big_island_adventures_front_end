@@ -15,20 +15,30 @@ const EventCard = ({ tour }) => {
     hour: "numeric",
     minute: "numeric",
   };
-  const formattedDate = date.toLocaleString("en-US", options);
+  const formattedDate = date.toLocaleString('en-US', options);
+  if (tour.capacity === 0){
+    return null;
+  }
+
+  const currentDate = new Date();
+  const tourDate = new Date(tour.date);
+  if (tourDate < currentDate){
+    return null;
+  }
+
   return (
     <section>
-      <Card className="event-card">
-        <Card.Img
-          className="event-card-img"
-          variant="top"
-          src={tour.photo_url}
-        />
-        <Card.Body className="card-body d-flex flex-column">
-          <Card.Text>{"Date: " + formattedDate}</Card.Text>
-          <Card.Title className="card-title">{tour.name}</Card.Title>
+      <Card className='event-card'>
+        <Card.Img className='event-card-img' variant="top" src={tour.photo_url} />
+        <Card.Body className='card-body'>
+          <section className="card-date-title">
+          <Card.Text className='card-date'>
+            <b>Date:</b> {formattedDate}
+          </Card.Text>
+          <Card.Title className="tour-title">{tour.name}</Card.Title>
+          </section>
           <Link to={`/tours/${tour.id}`}>
-            <Button variant="secondary">More Info</Button>
+          <Button className="more-info-btn" variant="secondary">More Info</Button>
           </Link>
         </Card.Body>
       </Card>

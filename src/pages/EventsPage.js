@@ -29,6 +29,7 @@ const LOCATION_KEYS = {
 
 // get 5 days forecasts data
 const getAllForecastData = (locationName) => {
+  console.log("WEATHER KEY : " + WEATHER_API_KEY)
   return axios
     .get(
       `${k2BaseUrl}/${LOCATION_KEYS[locationName]}?apikey=${WEATHER_API_KEY}`
@@ -134,6 +135,7 @@ const EventsPage = () => {
     return requestMessage;
   };
 
+
   const getAllTours = () => {
     axios
       .get(`${kBaseUrl}/tours`)
@@ -195,6 +197,8 @@ const EventsPage = () => {
       });
   }, [filters]);
 
+
+  
   return (
     <main className="main-events">
       <section>

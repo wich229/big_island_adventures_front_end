@@ -24,14 +24,14 @@ function TopNav() {
               Signed in as: <a href="#login">Name</a>
             </Navbar.Text> */}
           {/* </Navbar.Collapse> */}
-          <Navbar.Text className="nav-bottons">
+          <Navbar.Text className="header-links">
             <Link to="/about">
               <Button variant="outline-secondary">About</Button>
             </Link>{" "}
-            <Link to="/login_signup">
+            <Link to="/login">
               <Button variant="outline-secondary">Sign In</Button>
             </Link>{" "}
-            <Link to="/login_signup">
+            <Link to="/signup">
               <Button variant="outline-secondary">Sign Up</Button>
             </Link>{" "}
           </Navbar.Text>

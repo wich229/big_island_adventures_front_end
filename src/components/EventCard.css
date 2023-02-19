@@ -13,12 +13,28 @@
   margin: 10px;
 }
 
-.card-body {
-  height: 200px;
-  width: 100%;
-  justify-content: space-between;
+.tour-title{
+    flex: 1;
+    margin-bottom:1rem;
+    top: 0;
 }
 
-.card-title {
-  height: 5rem;
+.card-body{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    
+}
+
+.more-info-btn{
+    margin-top: 1rem;
+}
+
+.card-date{
+    flex: 1;
+    height:10px;
+    font-weight: bold;
+    color:rgba(30, 30, 30, 0.618)
+    
 }
