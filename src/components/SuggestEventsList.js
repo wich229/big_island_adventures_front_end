@@ -3,11 +3,11 @@ import { CardGroup, Col } from "react-bootstrap";
 import "../App.css";
 import "./EventsList.css";
 
-const EventsList = ({ tours }) => {
-  const toursList = tours.map((tour, index) => {
+const SuggestEventsList = ({ suggestTours }) => {
+  const toursList = suggestTours.map((suggestTours, index) => {
     return (
       <Col className="col" key={index}>
-        <EventCard tour={tour} />
+        <EventCard tour={suggestTours} />
       </Col>
     );
   });
@@ -15,4 +15,4 @@ const EventsList = ({ tours }) => {
   return <CardGroup className="card-group">{toursList}</CardGroup>;
 };
 
-export default EventsList;
+export default SuggestEventsList;

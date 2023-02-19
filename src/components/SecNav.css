@@ -8,12 +8,12 @@ ul {
   list-style-type: none;
 }
 
-.booking-steps{
+.booking-steps {
   color: white;
   flex-grow: 1;
 }
 
-ul{
+ul {
   color: white;
   flex-grow: 1;
   padding: 0;
@@ -22,11 +22,20 @@ ul{
 .default-li {
   color: white;
   flex-grow: 1;
-  padding:1rem;
+  padding: 1rem;
 }
-.black-bg{
+.black-bg {
   color: rgb(255, 255, 255);
   flex-grow: 1;
-  padding:1rem;
-  background-color: #57929a;
+  padding: 1rem;
+  background-color: rgb(87, 146, 154);
+}
+
+.dashboard-step {
+  background-color: rgb(115, 115, 119);
+  display: flex;
+  list-style-type: none;
+  flex-grow: 1;
+  padding: 1.5rem;
+  justify-content: center;
 }

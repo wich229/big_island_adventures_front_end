@@ -1,0 +1,13 @@
+.info-table {
+  margin: auto;
+  width: 90%;
+  padding: 10px;
+}
+
+th {
+  height: 6rem;
+}
+
+ol {
+  list-style: none;
+}
