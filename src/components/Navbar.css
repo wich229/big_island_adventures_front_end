@@ -16,11 +16,17 @@
   width: 90%;
 }
 
-.BIA-logo-link {
-  text-decoration: none;
+.turtle-logo{
+    min-width:10rem;
 }
 
 .turtle-logo {
   width: 28vw;
   height: 7%;
+}
+
+.navbar-container{}
+
+.header-links{
+    min-width:fit-content
 }

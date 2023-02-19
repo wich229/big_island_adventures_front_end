@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "../App.css";
 import "./EventsPage.css";
+import { Button } from "react-bootstrap";
 import EventsList from "../components/EventsList";
 import Weather from "../components/Weather";
 import SecNav from "../components/SecNav";
@@ -9,7 +10,7 @@ import FilterCheckboxes from "../components/FilterCheckboxes";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-//--------------------- EVENT API CALL ---------------------------------------
+//--------------------- TOURS API CALL ---------------------------------------
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 const page = "tours";
 
@@ -30,6 +31,7 @@ const LOCATION_KEYS = {
 
 // get 5 days forecasts data
 const getAllForecastData = (locationName) => {
+  console.log("WEATHER KEY : " + WEATHER_API_KEY)
   return axios
     .get(
       `${k2BaseUrl}/${LOCATION_KEYS[locationName]}?apikey=${WEATHER_API_KEY}`
@@ -53,25 +55,37 @@ const getAllForecastData = (locationName) => {
 };
 
 const EventsPage = () => {
+  // menu options
   const filterMenuOptions = {
-    Category: ["Water Sports", "Educational", "Sightseeing"],
-    Location: ["Hilo", "Kona", "Volcano", "Waimea", "Hamakua"],
+    Category: ["Sports", "Sightseeing", "Educational"],
+    Location: ["Hamakua", "Hilo", "Puna", "Kona", "Hakalau"],
     Type: ["Indoor", "Outdoor"],
   };
 
   // states lifting:
   // state data: date / tour type / category / location / guests number /
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [forecast, setForecast] = useState([]);
   const [tours, setTours] = useState([]);
   const [filters, setFilters] = useState({});
 
   // react-router-loader: events info
   // --------------------------------------------------------------------------
+  // ----------------------------- weather ------------------------------------
+  // --------------------------------------------------------------------------
+  // getting location data for the weather function
+  const getLacationForWeather = (filters) => {
+    for (const [key, value] of Object.entries(filters)) {
+      if (key === "Location") return value;
+    }
+  };
+
+  // --------------------------------------------------------------------------
   // ----------------------------- filter -------------------------------------
   // --------------------------------------------------------------------------
+  // transforms date to format we need in order to query
   const transformDate = (dateOption) => {
-    if (dateOption !== "") {
+    if (dateOption !== null) {
       const month = (dateOption.getMonth() + 1).toString();
       const date = dateOption.getDate().toString();
       const year = dateOption.getFullYear().toString();
@@ -82,9 +96,9 @@ const EventsPage = () => {
     }
   };
 
+  // transforms the filter request to make queries
   const transformFilterRequest = (filters) => {
     let request = [];
-
     for (const [key, value] of Object.entries(filters)) {
       for (const i of value) {
         if (key === "Type") {
@@ -95,20 +109,53 @@ const EventsPage = () => {
             request.push(`is_outdoor=true`);
           }
         }
+
         if (key === "Location") {
           request.push(`city=${i}`);
-        } else {
-          request.push(`${key.toLowerCase()}=${i.toLowerCase()}`);
         }
+        if (key === "Category") {
+          console.log("Category" + i);
+          request.push(`category=${i}`);
+        }
+      }
+      if (key === "date") {
+        request.push(`date=${value}`);
+        console.log(request);
       }
     }
     const requestMessage = request.join("&");
+    console.log(requestMessage);
     return requestMessage;
+  };
+
+
+  const getAllTours = () => {
+    axios
+      .get(`${kBaseUrl}/tours`)
+      .then((response) => {
+        setTours(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleShowAll = () => {
+    setStartDate(null);
+    setFilters({});
+    getAllTours();
+  };
+
+  const handleDateChange = (date) => {
+    setStartDate(date);
+    setFilters({ date: transformDate(date) });
   };
 
   // ----------- getting data before rendering -------------------------
   useEffect(() => {
-    getAllForecastData("Hamakua")
+    let selectLocation = "Hamakua";
+    if (filters === true) selectLocation = getLacationForWeather(filters);
+    getAllForecastData(selectLocation)
       .then((dailyForecast) => {
         // console.log(dailyForecast);
         setForecast(dailyForecast);
@@ -119,30 +166,12 @@ const EventsPage = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`${kBaseUrl}/tours`)
-      .then((response) => {
-        setTours(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getAllTours();
   }, []);
 
   useEffect(() => {
     axios
       .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
-      .then((response) => {
-        setTours(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [filters, startDate]);
-
-  useEffect(() => {
-    axios
-      .get(`${kBaseUrl}/tours?${transformDate(startDate)}`)
       .then((response) => {
         console.log("tours:" + response.data);
         setTours(response.data);
@@ -150,8 +179,10 @@ const EventsPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [startDate]);
+  }, [filters]);
 
+
+  
   return (
     <main className="main-events">
       <section>
@@ -162,16 +193,18 @@ const EventsPage = () => {
         <section className="calendar-container">
           <h3>Select Tour by Date</h3>
           <DatePicker
-            placeholderText="Click here to view calendar"
+            placeholderText="Select Date"
             variant="secondary"
             popperPlacement="auto"
             className="calendar"
             selected={startDate}
-            onChange={setStartDate}
+            onChange={(date) => handleDateChange(date)}
           />
         </section>
-
         <section className="weather-section">
+          <section className="weather-location">
+            <h4>Name</h4>
+          </section>
           <Weather
             forecast={forecast}
             getAllForecastData={getAllForecastData}
@@ -181,6 +214,15 @@ const EventsPage = () => {
       </section>
 
       <section className="query-choices">
+        <section>
+          <Button
+            className="show-all-btn"
+            onClick={handleShowAll}
+            variant="secondary"
+          >
+            Show All
+          </Button>
+        </section>
         <FilterCheckboxes
           className="filter-checkbox"
           filterOptions={filterMenuOptions}
@@ -189,7 +231,7 @@ const EventsPage = () => {
         />
       </section>
 
-      <section className="event-section pt-5 pb-5">
+      <section className="event-card-container">
         <EventsList tours={tours} />
       </section>
     </main>

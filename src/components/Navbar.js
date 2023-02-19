@@ -24,7 +24,7 @@ function TopNav() {
               Signed in as: <a href="#login">Name</a>
             </Navbar.Text> */}
           {/* </Navbar.Collapse> */}
-          <Navbar.Text className="nav-bottons">
+          <Navbar.Text className="header-links">
             <Link to="/about">
               <Button variant="outline-secondary">About</Button>
             </Link>{" "}

@@ -4,11 +4,10 @@ import SignUpCard from "../components/SignUpCard";
 import LogInCard from "../components/LogInCard";
 const LoginSignUp = () => {
   return (
-    <div>
-      <SignUpCard />
-      <LogInCard />
-    </div>
-  );
+
+  <LoginSignUpCard className='login-page'/>
+  )
+
 };
 
 export default LoginSignUp;
