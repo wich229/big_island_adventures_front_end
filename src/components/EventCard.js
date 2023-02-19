@@ -1,19 +1,19 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';  
+import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import './EventCard.css'
-import { Link} from 'react-router-dom';
+import "./EventCard.css";
+import { Link } from "react-router-dom";
 
-const EventCard = ({tour}) => {
+const EventCard = ({ tour }) => {
   const date = new Date(tour.time);
   const options = {
-    year: 'numeric', 
-    month: 'numeric', 
-    day: 'numeric',
-    hour12: true, 
-    hour: 'numeric', 
-    minute: 'numeric'
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour12: true,
+    hour: "numeric",
+    minute: "numeric",
   };
   const formattedDate = date.toLocaleString('en-US', options);
   if (tour.capacity === 0){
