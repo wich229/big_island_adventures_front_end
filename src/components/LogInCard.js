@@ -11,7 +11,7 @@ const LogInCard = () => {
   const [formFields, setFormFields] = useState({
     email: "",
     password: "",
-    session_id: "",
+    // session_id: "",
   });
 
   const onEmailChange = (event) => {
@@ -40,8 +40,8 @@ const LogInCard = () => {
         // });
       })
       .catch((error) => {
-        console.log(error.response);
-        //console.log(error.response.error);
+        //console.log(error.response);
+        console.log(error.response.data.error);
       });
   };
 

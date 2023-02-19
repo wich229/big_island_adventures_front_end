@@ -13,7 +13,7 @@ const SignUpCard = () => {
     email: "",
     password: "",
     phone: "",
-    session_id: "",
+    //session_id: "",
   });
 
   const onNameChange = (event) => {
@@ -49,17 +49,16 @@ const SignUpCard = () => {
     axios
       .post(`${kBaseUrl}/customers/register`, formFields)
       .then((response) => {
-        console.log(response);
-        //console.log(response.data);
+        // console.log(response);
+        console.log(response.data);
         // setFormFields({
         //   ...formFields,
         //   session_id: response.data.id,
         // });
       })
       .catch((error) => {
-        console.log(error);
-        //console.log(error.response);
-        //console.log(error.response.error);
+        //console.log(error);
+        console.log(error.response.data.error);
       });
   };
 
