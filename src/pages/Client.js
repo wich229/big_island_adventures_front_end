@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import BookingForm from '../components/BookingForm';
 import axios from 'axios';
-import LoginSignUpCard from '../components/LoginSignUpCard';
 
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL
@@ -55,16 +54,7 @@ const Client = () => {
             <SecNav page={page}/>
         </section>
         <section  className="client-page-container">
-        <section>
-            <LoginSignUpCard
-                name={name}
-                email={email}
-                password={password}
-                setName={setName}
-                setPassword={setPassword}
-                setEmail={setEmail}
-            />
-        </section>
+
         <section>
         <BookingForm 
             tour={tour} 
