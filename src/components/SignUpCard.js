@@ -8,38 +8,72 @@ import axios from "axios";
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const SignUpCard = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [formFields, setFormFields] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    session_id: "",
+  });
 
-  const handleSignUp = async (event) => {
+  const onNameChange = (event) => {
+    setFormFields({
+      ...formFields,
+      name: event.target.value,
+    });
+  };
+
+  const onEmailChange = (event) => {
+    setFormFields({
+      ...formFields,
+      email: event.target.value,
+    });
+  };
+
+  const onPasswordChange = (event) => {
+    setFormFields({
+      ...formFields,
+      password: event.target.value,
+    });
+  };
+
+  const onPhoneChange = (event) => {
+    setFormFields({
+      ...formFields,
+      phone: event.target.value,
+    });
+  };
+
+  const onSignUp = async (event) => {
     event.preventDefault();
-    try {
-      const response = await axios.post(`${kBaseUrl}/customers/register`, {
-        name,
-        email,
-        password,
-        phone,
+    axios
+      .post(`${kBaseUrl}/customers/register`, formFields)
+      .then((response) => {
+        console.log(response);
+        //console.log(response.data);
+        // setFormFields({
+        //   ...formFields,
+        //   session_id: response.data.id,
+        // });
+      })
+      .catch((error) => {
+        console.log(error);
+        //console.log(error.response);
+        //console.log(error.response.error);
       });
-      console.log(response.data);
-      // add any further actions after sign up here
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (
     <main className="form-container">
       <section>
-        <Form className="text-center login-signup-form" onSubmit={handleSignUp}>
+        <Form className="text-center login-signup-form" onSubmit={onSignUp}>
           <Form.Group className="mb-3" controlId="formBasicName">
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="name"
               placeholder="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formFields.name}
+              onChange={onNameChange}
             />
           </Form.Group>
 
@@ -48,8 +82,8 @@ const SignUpCard = () => {
             <Form.Control
               type="email"
               placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formFields.email}
+              onChange={onEmailChange}
             />
           </Form.Group>
 
@@ -58,8 +92,8 @@ const SignUpCard = () => {
             <Form.Control
               type="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formFields.password}
+              onChange={onPasswordChange}
             />
           </Form.Group>
 
@@ -68,8 +102,8 @@ const SignUpCard = () => {
             <Form.Control
               type="phone"
               placeholder="Phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={formFields.phone}
+              onChange={onPhoneChange}
             />
           </Form.Group>
 
