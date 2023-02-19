@@ -3,11 +3,13 @@ import "../App.css";
 import "./EventsPage.css";
 import { Button } from "react-bootstrap";
 import EventsList from "../components/EventsList";
+import SuggestEventsList from "../components/SuggestEventsList";
 import Weather from "../components/Weather";
 import SecNav from "../components/SecNav";
 import axios from "axios";
 import FilterCheckboxes from "../components/FilterCheckboxes";
 import DatePicker from "react-datepicker";
+import WeatherLocationSelecter from "../components/WeatherLocationSelecter";
 import "react-datepicker/dist/react-datepicker.css";
 
 //--------------------- TOURS API CALL ---------------------------------------
@@ -34,6 +36,7 @@ const getAllForecastData = (locationName) => {
   return axios
     .get(
       `${k2BaseUrl}/${LOCATION_KEYS[locationName]}?apikey=${WEATHER_API_KEY}`
+      // `${k2BaseUrl}/315078?apikey=${WEATHER_API_KEY}` //Taipei's weather
     )
     .then((response) => {
       const organized_data = response.data.DailyForecasts.map((dailyData) => {
@@ -41,7 +44,7 @@ const getAllForecastData = (locationName) => {
           date: dailyData.Date,
           tempMin: dailyData.Temperature.Minimum.Value,
           tempMax: dailyData.Temperature.Maximum.Value,
-          dayIcon: dailyData.Day.Icon,
+          dayIcon: ("0" + dailyData.Day.Icon).slice(-2),
           dayIconPhrase: dailyData.Day.IconPhrase,
           dayHasPrecipitation: dailyData.Day.HasPrecipitation,
         };
@@ -63,22 +66,30 @@ const EventsPage = () => {
 
   // states lifting:
   // state data: date / tour type / category / location / guests number /
+  // react-router-loader: events info
   const [startDate, setStartDate] = useState(null);
   const [forecast, setForecast] = useState([]);
+  const [weatherLocation, setweatherLocation] = useState("Hamakua");
   const [tours, setTours] = useState([]);
+  const [suggestTours, setsuggesTours] = useState([]);
   const [filters, setFilters] = useState({});
 
-  // react-router-loader: events info
+  //---------------------------------------------------------------------------
+  // ----------------------------- wheather------------------------------------
   // --------------------------------------------------------------------------
-  // ----------------------------- weather ------------------------------------
-  // --------------------------------------------------------------------------
-  // getting location data for the weather function
-  const getLacationForWeather = (filters) => {
-    for (const [key, value] of Object.entries(filters)) {
-      if (key === "Location") return value;
-    }
+  const givingSuggestionByWeather = (forecast) => {
+    const allPrecipitationArr = forecast.map((eachday) => {
+      return eachday.dayHasPrecipitation;
+    });
+    console.log(allPrecipitationArr);
+    const result =
+      allPrecipitationArr.filter((i) => !!i).length >=
+      allPrecipitationArr.length / 2;
+    console.log(result);
+    const suggestion = result ? "is_outdoor=false" : "is_outdoor=true";
+    console.log(suggestion);
+    return suggestion;
   };
-
   // --------------------------------------------------------------------------
   // ----------------------------- filter -------------------------------------
   // --------------------------------------------------------------------------
@@ -151,30 +162,40 @@ const EventsPage = () => {
 
   // ----------- getting data before rendering -------------------------
   useEffect(() => {
-    let selectLocation = "Hamakua";
-    if (filters === true) selectLocation = getLacationForWeather(filters);
-    getAllForecastData(selectLocation)
+    getAllForecastData(weatherLocation)
       .then((dailyForecast) => {
-        // console.log(dailyForecast);
         setForecast(dailyForecast);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [weatherLocation]);
+
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/tours?${givingSuggestionByWeather(forecast)}`)
+      .then((response) => {
+        // console.log("tours:" + response.data);
+        setsuggesTours(response.data);
+        // console.log("response data" + Object.entries(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [forecast]);
 
   useEffect(() => {
     getAllTours();
   }, []);
 
   useEffect(() => {
-    console.log("category in use effect " + Object.entries(filters));
+    // console.log("category in use effect " + Object.entries(filters));
     axios
       .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
       .then((response) => {
-        console.log("tours:" + response.data);
+        // console.log("tours:" + response.data);
         setTours(response.data);
-        console.log("response data" + Object.entries(response.data));
+        // console.log("response data" + Object.entries(response.data));
       })
       .catch((error) => {
         console.log(error);
@@ -199,15 +220,26 @@ const EventsPage = () => {
             onChange={(date) => handleDateChange(date)}
           />
         </section>
+
         <section className="weather-section">
           <section className="weather-location">
-            <h4>Name</h4>
+            <div>
+              <h4>{weatherLocation}</h4>
+              <WeatherLocationSelecter
+                weatherLocation={weatherLocation}
+                setweatherLocation={setweatherLocation}
+              />
+            </div>
           </section>
           <Weather
             forecast={forecast}
             getAllForecastData={getAllForecastData}
             setForecast={setForecast}
           />
+          <section className="event-card-container-by-weather">
+            <h4>suggestion by weather</h4>
+            <SuggestEventsList suggestTours={suggestTours} />
+          </section>
         </section>
       </section>
 
@@ -230,6 +262,7 @@ const EventsPage = () => {
       </section>
 
       <section className="event-card-container">
+        <h4>showing by filtering</h4>
         <EventsList tours={tours} />
       </section>
     </main>

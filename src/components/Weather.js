@@ -12,10 +12,11 @@ const Weather = (props) => {
         <Row className="icon">
           <img
             src={`https://developer.accuweather.com/sites/default/files/${eachData.dayIcon}-s.png`}
+            alt="weater_icon"
           />
         </Row>
         <Row className="temps">
-          {eachData.tempMin} °F / {eachData.tempMax} °F
+          {eachData.tempMax} °F / {eachData.tempMin} °F
         </Row>
         {/* <Row className="phrase">{eachData.dayIconPhrase}</Row> */}
       </Card>
