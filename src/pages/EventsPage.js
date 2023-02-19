@@ -16,10 +16,6 @@ import "react-datepicker/dist/react-datepicker.css";
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 const page = "tours";
 
-// Weather -------------------------------------------------------------------
-// can use eather to return the event suggestion:
-// # Headline.Severity	=> Severity of the headline, displayed as an integer. The lower the number, the greater the severity. 0 = Unknown 1 = Significant 2 = Major 3 = Moderate 4 = Minor 5 = Minimal 6 = Insignificant 7 = Informational
-// # DailyForecasts.Day.HasPrecipitation => bool
 //--------------------- Weather API CALL -------------------------------------
 const k2BaseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day";
 const WEATHER_API_KEY = process.env.REACT_APP_ACCUWEATHER_API_KEY;
@@ -189,13 +185,10 @@ const EventsPage = () => {
   }, []);
 
   useEffect(() => {
-    // console.log("category in use effect " + Object.entries(filters));
     axios
       .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
       .then((response) => {
-        // console.log("tours:" + response.data);
         setTours(response.data);
-        // console.log("response data" + Object.entries(response.data));
       })
       .catch((error) => {
         console.log(error);
