@@ -3,22 +3,47 @@
     border-top-right-radius: 15px;
     height: 400px;
     width: 100%;
+}
 
+.card-date-title{
+    color: rgb(118, 118, 118);
+    height: 10rem;
+    padding: 1rem;
+    border-radius: 15px;
+    background-color: rgba(99, 99, 99, 0.109);
 }
 
 .event-card{
     border-radius: 15px;
     width: 300px;
-    height: 600px;
+    height: 650px;
     margin: 10px; 
-
+    box-shadow: -16px 21px 22px -6px rgba(0,0,0,0.66);
+    border: 1px solid rgba(60, 60, 60, 0.184);
 }
 
-.card-title{
-    height: 5rem;
+.tour-title{
+    flex: 1;
+    margin-bottom:1rem;
+    top: 0;
 }
 
 .card-body{
-    height: 200px;
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    justify-content: center;
+    
+}
+
+.more-info-btn{
+    margin-top: 1rem;
+}
+
+.card-date{
+    flex: 1;
+    height:10px;
+    font-weight: bold;
+    color:rgba(30, 30, 30, 0.618)
+    
 }

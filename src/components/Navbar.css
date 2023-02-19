@@ -7,7 +7,7 @@
 }
 
 .turtle-logo{
-    margin-left:.5rem;
+    min-width:10rem;
 }
 
 .Nav{
@@ -15,3 +15,7 @@
 }
 
 .navbar-container{}
+
+.header-links{
+    min-width:fit-content
+}

@@ -15,7 +15,7 @@ function TopNav() {
           <Link className="BIA-logo-link" to="/">
             <Navbar.Brand 
             href="#home" className="BIA-logo-text">
-            <img className="turtle-logo" src={logo2} height="60" 
+            <img className="turtle-logo" src={logo1} height="60" 
             alt="Turtle logo"/>
             </Navbar.Brand>
           </Link>
@@ -26,7 +26,7 @@ function TopNav() {
               Signed in as: <a href="#login">Name</a>
             </Navbar.Text> */}
           {/* </Navbar.Collapse> */}
-          <Navbar.Text>
+          <Navbar.Text className="header-links">
             <Link to="/about">
               <Button variant="outline-secondary">About</Button>
             </Link>{" "}

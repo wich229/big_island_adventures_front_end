@@ -1,19 +1,18 @@
 import '../App.css';
 import SecNav from '../components/SecNav';
-import { Form, FormGroup, Button, InputGroup } from "react-bootstrap";
 import './Client.css'
 import { useEffect, useState } from "react";
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import BookingForm from '../components/BookingForm';
 import axios from 'axios';
+import LoginSignUpCard from '../components/LoginSignUpCard';
 
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL
 
 const Client = () => {
     const param = useParams();
-    const page = "client"
-    const [tour, setTourState] = useState({});
-    const date = new Date(tour.time);
+    const page = "client";
     const options = {
         year: 'numeric', 
         month: 'numeric', 
@@ -22,14 +21,26 @@ const Client = () => {
         hour: 'numeric', 
         minute: 'numeric'
         };
-    const capacity = tour.capacity
+    
+
+    // --------STATE------
+    const [numTickets, setNumTickets] = useState(1);
+    const [tour, setTourState] = useState({});  
+    const [price, setPrice] = useState(0);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const[password, setPassword] = useState('');
+    const [bookingData, setBookingData] = useState({});
+
+    const date = new Date(tour.time);
     const formattedDate = date.toLocaleString('en-US', options);
-  
+
     useEffect(() => {
         axios
             .get(`${kBaseUrl}/tours/${param.id}`)
             .then((response) => {
             setTourState(response.data);
+            setPrice(response.data.price);
             })
             .catch((error) => {
             console.log(error);
@@ -37,63 +48,38 @@ const Client = () => {
         
         }, [param.id]);
 
-    const handleSubmit = (event) => {
-            event.preventDefault();
-            // handle form submission logic here
-        };
-    const [numTickets, setNumTickets] = useState(0);
-
-    // handle increase and decrease in ticket count
-    const increaseTickets = () => {
-        if (numTickets < capacity) {
-        setNumTickets(numTickets + 1);
-        }
-    };
-    const decreaseTickets = () => {
-        if (numTickets > 0) {
-        setNumTickets(numTickets - 1);
-        }
-    };
 
     return(
     <main>
         <section>
             <SecNav page={page}/>
         </section>
+        <section  className="client-page-container">
+        <section>
+            <LoginSignUpCard
+                name={name}
+                email={email}
+                password={password}
+                setName={setName}
+                setPassword={setPassword}
+                setEmail={setEmail}
+            />
+        </section>
+        <section>
+        <BookingForm 
+            tour={tour} 
+            formattedDate={formattedDate}
+            param={param}
+            numTickets={numTickets}
+            setNumTickets={setNumTickets}
+            price={price}
+            setPrice={setPrice}
+            bookingData={bookingData}
+            setBookingData={setBookingData}
 
-        <section >
-            <Form onSubmit={handleSubmit} className="booking-form">
-            <Form.Label>Tour</Form.Label><br/>
-            <Form.Text>{tour.name}</Form.Text>
-        <section className="when-where">
-        <section className="when">
-            <Form.Label>When</Form.Label><br/>
-            <Form.Text>{formattedDate}</Form.Text><br/>
-        </section>
-        <section className="where">
-            <Form.Label>Where</Form.Label><br/>
-            <Form.Text >{tour.address}</Form.Text><br/>
-        </section>
-        </section>
-
-        <section className="tickets-submit">
-        <Form.Label className="ticket-label">Tickets</Form.Label><br/>
-        <section className="tickets">
-            <Button variant="secondary" onClick={decreaseTickets}>-</Button>
-            <Form.Control className="ticket-number" readOnly value={numTickets}/>
-            <Button variant="secondary" onClick={increaseTickets}>+</Button><br/>
-        </section>
-
-        <section className="nav-buttons">
-        <Link to={`/tours/${param.id}`}>
-            <Button variant="secondary" className="go-back-btn">Go Back</Button>
-        </Link> 
-        <Link to="/confirmation">
-        <Button className="review-btn" variant="secondary" type="submit">Review</Button>
-        </Link>
-        </section>
-        </section>
-    </Form>
+            >
+        </BookingForm>
+        </section >
         </section>
     </main>
     )

@@ -9,11 +9,9 @@ import axios from 'axios';
 import FilterCheckboxes from "../components/FilterCheckboxes";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+  // constants
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL
 const page = "tours";
-
-const EventsPage = () => {
 
   // menu options
   const filterMenuOptions = {
@@ -21,7 +19,9 @@ const EventsPage = () => {
     Location: ["Hilo", "Kona", "Hakalau"],
     Type: ["Indoor", "Outdoor"]
 };
+const EventsPage = () => {
 
+// --------HELPER FUNCTIONS----------
 // transforms date to format we need in order to query
   const transformDate = (dateOption) => {
     if (dateOption !== null){
@@ -70,6 +70,8 @@ const EventsPage = () => {
   const [filters, setFilters] = useState({});
   const [startDate, setStartDate] = useState(null);
 
+
+  //api calls and useeffect
   const getAllTours = () => {
     axios
     .get(`${kBaseUrl}/tours`)
@@ -79,16 +81,6 @@ const EventsPage = () => {
     .catch((error) => {
       console.log(error);
     });
-  }
-  const handleShowAll = () => {
-      setStartDate(null)
-      setFilters({});
-      getAllTours();
-    }
-  
-  const handleDateChange = (date) => {
-    setStartDate(date)
-    setFilters({"date":transformDate(date)})
   }
 
   useEffect(() => {
@@ -106,6 +98,20 @@ const EventsPage = () => {
       });
   }, [filters]);
 
+
+  // event handlers
+  const handleShowAll = () => {
+      setStartDate(null)
+      setFilters({});
+      getAllTours();
+    }
+  
+  const handleDateChange = (date) => {
+    setStartDate(date)
+    setFilters({"date":transformDate(date)})
+  }
+
+  
   return (
   <main className="main-events">
     <section>
