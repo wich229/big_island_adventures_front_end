@@ -51,6 +51,7 @@ const SignUpCard = () => {
       .then((response) => {
         // console.log(response);
         console.log(response.data);
+        window.confirm("Sign Up Successful");
         // setFormFields({
         //   ...formFields,
         //   session_id: response.data.id,
@@ -58,7 +59,7 @@ const SignUpCard = () => {
       })
       .catch((error) => {
         //console.log(error);
-        console.log(error.response.data.error);
+        alert(error.response.data.error);
       });
   };
 
