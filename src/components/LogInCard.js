@@ -34,6 +34,7 @@ const LogInCard = () => {
       .post(`${kBaseUrl}/customers/login`, formFields)
       .then((response) => {
         console.log(response.data);
+        window.confirm("Login Successful");
         // setFormFields({
         //   ...formFields,
         //   session_id: response.data.id,
@@ -41,7 +42,7 @@ const LogInCard = () => {
       })
       .catch((error) => {
         //console.log(error.response);
-        console.log(error.response.data.error);
+        alert(error.response.data.error);
       });
   };
 
