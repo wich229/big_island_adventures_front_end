@@ -29,7 +29,7 @@ const Client = () => {
     const [price, setPrice] = useState(0);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const[password, setPassword] = useState('');
+    const [password, setPassword] = useState('');
     const [bookingData, setBookingData] = useState({});
 
     const date = new Date(tour.time);
