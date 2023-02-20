@@ -21,29 +21,27 @@ const BookingForm = ({
   currentUser,
 }) => {
   const checkLogin = () => {
+    console.log("current User: " + currentUser.id)
     axios
-      .post(`${kBaseUrl}/customers/@user`, currentUser.id)
+      .get(`${kBaseUrl}/customers/@user`)
       .then((response) => {
-        setIsLogin(true);
-        console.log(response.data);
+        if (response.data.id){
+            setIsLogin(true);
+        }
+        console.log("response" + response.data);
         //window.confirm("Login Successful");
       })
       .catch((error) => {
-        setIsLogin(false);
         //console.log(error.response);
         alert(error.response.data.error);
       });
   };
 
-  useEffect(() => {
-    checkLogin();
-    console.log(isLogin);
-  }, []);
-
   // event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
-    // checkLogin();
+    console.log("IM here")
+    checkLogin();
     console.log(isLogin);
   };
 
@@ -75,7 +73,7 @@ const BookingForm = ({
   const capacity = tour.capacity;
 
   return (
-    <Form onSubmit={handleSubmit} className="booking-form">
+    <Form  onSubmit={handleSubmit} className="booking-form">
       <section className="when-where-price-tour">
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
@@ -127,7 +125,7 @@ const BookingForm = ({
 
       <section className="nav-buttons">
         <Link to={`/tours/${param.id}`}>
-          <Button variant="secondary" type="submit" className="go-back-btn">
+          <Button variant="secondary" className="go-back-btn">
             Go Back
           </Button>
         </Link>
@@ -135,9 +133,8 @@ const BookingForm = ({
           to={{
             pathname: "/confirmation",
             state: { bookingData },
-          }}
-        >
-          <Button className="review-btn" variant="secondary" type="submit">
+          }}>
+          <Button onClick={handleSubmit} className="review-btn" variant="secondary" type="submit">
             Review
           </Button>
         </Link>
