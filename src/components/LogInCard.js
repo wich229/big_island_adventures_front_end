@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import "./LoginSignUpCard.css";
 import "../App.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -65,8 +66,10 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
               value={loginFields.password}
               onChange={onPasswordChange}
             />
+            <Link to={"/signup"}>
+              <p> Sing Up</p>
+            </Link>
           </Form.Group>
-
           <Button variant="primary" type="submit">
             Sign In
           </Button>

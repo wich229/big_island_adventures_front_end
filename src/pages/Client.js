@@ -31,20 +31,18 @@ const Client = () => {
     email: "",
     password: "",
   });
-  const [signupFields, setSignupFields] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-  });
+  // const [signupFields, setSignupFields] = useState({
+  //   name: "",
+  //   email: "",
+  //   password: "",
+  //   phone: "",
+  // });
   const [currentUser, setCurrentUser] = useState({});
 
   // if isLogin is true procress to the booking
   // if isLogin is false showing the LogInCard (add <a> link to the SignUpCard)
   const [isLogin, setIsLogin] = useState(false);
-  // const toggleLogInCard = () => {
-  //   setIsLogin(!isLogin);
-  // };
+  const [showSingUp, setShowSingUp] = useState(false);
 
   const date = new Date(tour.time);
   const formattedDate = date.toLocaleString("en-US", options);
@@ -73,6 +71,8 @@ const Client = () => {
             setLoginFields={setLoginFields}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
+            showSingUp={showSingUp}
+            setShowSingUp={setShowSingUp}
           />
         )}
         {/* <SignUpCard

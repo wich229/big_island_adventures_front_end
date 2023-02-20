@@ -20,31 +20,35 @@ const BookingForm = ({
   setIsLogin,
   currentUser,
 }) => {
-  const checkLogin = () => {
-    axios
-      .post(`${kBaseUrl}/customers/@user`, currentUser.id)
-      .then((response) => {
-        setIsLogin(true);
-        console.log(response.data);
-        //window.confirm("Login Successful");
-      })
-      .catch((error) => {
-        setIsLogin(false);
-        //console.log(error.response);
-        alert(error.response.data.error);
-      });
-  };
+  let canClick = currentUser.id ? setIsLogin(true) : setIsLogin(false);
 
-  useEffect(() => {
-    checkLogin();
-    console.log(isLogin);
-  }, []);
+  // const checkLogin = () => {
+  //   axios
+  //     .post(`${kBaseUrl}/customers/@user`, currentUser.id)
+  //     .then((response) => {
+  //       setIsLogin(true);
+  //       console.log(response.data);
+  //       //window.confirm("Login Successful");
+  //     })
+  //     .catch((error) => {
+  //       setIsLogin(false);
+  //       //console.log(error.response);
+  //       alert(error.response.data.error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   checkLogin();
+  //   console.log(isLogin);
+  // }, []);
 
   // event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
-    // checkLogin();
-    console.log(isLogin);
+  };
+
+  const notHandleSubmit = (e) => {
+    alert("please sign in");
   };
 
   // handle increase and decrease in ticket count
@@ -75,7 +79,10 @@ const BookingForm = ({
   const capacity = tour.capacity;
 
   return (
-    <Form onSubmit={handleSubmit} className="booking-form">
+    <Form
+      onSubmit={isLogin === true ? handleSubmit : notHandleSubmit}
+      className="booking-form"
+    >
       <section className="when-where-price-tour">
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
@@ -132,10 +139,14 @@ const BookingForm = ({
           </Button>
         </Link>
         <Link
-          to={{
-            pathname: "/confirmation",
-            state: { bookingData },
-          }}
+          to={
+            isLogin === true
+              ? {
+                  pathname: "/confirmation",
+                  state: { bookingData },
+                }
+              : ""
+          }
         >
           <Button className="review-btn" variant="secondary" type="submit">
             Review
