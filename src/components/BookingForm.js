@@ -20,6 +20,7 @@ const BookingForm = ({
   setIsLogin,
   currentUser,
 }) => {
+<<<<<<< HEAD
   const checkLogin = () => {
     console.log("current User: " + currentUser.id)
     axios
@@ -43,6 +44,37 @@ const BookingForm = ({
     console.log("IM here")
     checkLogin();
     console.log(isLogin);
+=======
+  let canClick = currentUser.id ? setIsLogin(true) : setIsLogin(false);
+
+  // const checkLogin = () => {
+  //   axios
+  //     .post(`${kBaseUrl}/customers/@user`, currentUser.id)
+  //     .then((response) => {
+  //       setIsLogin(true);
+  //       console.log(response.data);
+  //       //window.confirm("Login Successful");
+  //     })
+  //     .catch((error) => {
+  //       setIsLogin(false);
+  //       //console.log(error.response);
+  //       alert(error.response.data.error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   checkLogin();
+  //   console.log(isLogin);
+  // }, []);
+
+  // event handlers
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const notHandleSubmit = (e) => {
+    alert("please sign in");
+>>>>>>> 72e0b337d5dc794800b3ae223309d73ddaa89679
   };
 
   // handle increase and decrease in ticket count
@@ -73,7 +105,14 @@ const BookingForm = ({
   const capacity = tour.capacity;
 
   return (
+<<<<<<< HEAD
     <Form  onSubmit={handleSubmit} className="booking-form">
+=======
+    <Form
+      onSubmit={isLogin === true ? handleSubmit : notHandleSubmit}
+      className="booking-form"
+    >
+>>>>>>> 72e0b337d5dc794800b3ae223309d73ddaa89679
       <section className="when-where-price-tour">
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
@@ -130,11 +169,24 @@ const BookingForm = ({
           </Button>
         </Link>
         <Link
+<<<<<<< HEAD
           to={{
             pathname: "/confirmation",
             state: { bookingData },
           }}>
           <Button onClick={handleSubmit} className="review-btn" variant="secondary" type="submit">
+=======
+          to={
+            isLogin === true
+              ? {
+                  pathname: "/confirmation",
+                  state: { bookingData },
+                }
+              : ""
+          }
+        >
+          <Button className="review-btn" variant="secondary" type="submit">
+>>>>>>> 72e0b337d5dc794800b3ae223309d73ddaa89679
             Review
           </Button>
         </Link>

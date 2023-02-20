@@ -7,14 +7,14 @@ import axios from "axios";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
-const SignUpCard = ({ signupFields, setSignupFields }) => {
-  // const [signupFields, setSignupFields] = useState({
-  //   name: "",
-  //   email: "",
-  //   password: "",
-  //   phone: "",
-  //   //session_id: "",
-  // });
+const SignUpCard = () => {
+  const [signupFields, setSignupFields] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+    //session_id: "",
+  });
 
   const onNameChange = (event) => {
     setSignupFields({

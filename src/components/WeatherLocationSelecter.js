@@ -13,7 +13,7 @@ const WeatherLocationSelecter = ({ setweatherLocation }) => {
           setweatherLocation(e.target.value);
         }}
       >
-        <option value="Hamakua">Select location</option>
+        {/* <option value="Hamakua">Select location</option> */}
         <option value="Hamakua">Hamakua</option>
         <option value="Hilo">Hilo</option>
         <option value="Puna">Puna</option>

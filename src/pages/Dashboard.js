@@ -30,6 +30,17 @@ const getBookingByid = (user_id) => {
 };
 
 //--------------------- USER API CALL -----------------------------------
+const getUserByid = (user_id) => {
+  return axios
+    .post(`${kBaseUrl}/customers/@user`, user_id)
+    .then((response) => {
+      console.log(response.data);
+      //window.confirm("Login Successful");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 //--------------------- TOUR API CALL -----------------------------------
 
@@ -39,10 +50,21 @@ const Dashboard = () => {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
-    getBookingByid(1)
-      .then((bookingData) => {
-        console.log("bookingData: " + bookingData);
-        setBooking(bookingData);
+    // getBookingByid(1)
+    //   .then((bookingData) => {
+    //     console.log(bookingData);
+    //     setBooking(bookingData);
+    //     console.log(booking);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    getUserByid({ id: 1 })
+      .then((userData) => {
+        // console.log(userData);
+        setUser(userData);
+        console.log(user);
       })
       .catch((error) => {
         console.log(error);
