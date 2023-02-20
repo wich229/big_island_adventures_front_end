@@ -7,23 +7,23 @@ import axios from "axios";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
-const LogInCard = () => {
-  const [formFields, setFormFields] = useState({
-    email: "",
-    password: "",
-    // session_id: "",
-  });
+const LogInCard = ({ loginFields, setLoginFields }) => {
+  // const [loginFields, setLoginFields] = useState({
+  //   email: "",
+  //   password: "",
+  //   // session_id: "",
+  // });
 
   const onEmailChange = (event) => {
-    setFormFields({
-      ...formFields,
+    setLoginFields({
+      ...loginFields,
       email: event.target.value,
     });
   };
 
   const onPasswordChange = (event) => {
-    setFormFields({
-      ...formFields,
+    setLoginFields({
+      ...loginFields,
       password: event.target.value,
     });
   };
@@ -31,12 +31,12 @@ const LogInCard = () => {
   const onSignIn = (event) => {
     event.preventDefault();
     axios
-      .post(`${kBaseUrl}/customers/login`, formFields)
+      .post(`${kBaseUrl}/customers/login`, loginFields)
       .then((response) => {
         console.log(response.data);
         window.confirm("Login Successful");
-        // setFormFields({
-        //   ...formFields,
+        // setloginFields({
+        //   ...loginFields,
         //   session_id: response.data.id,
         // });
       })
@@ -55,7 +55,7 @@ const LogInCard = () => {
             <Form.Control
               type="email"
               placeholder="Enter email"
-              value={formFields.email}
+              value={loginFields.email}
               onChange={onEmailChange}
             />
           </Form.Group>
@@ -65,7 +65,7 @@ const LogInCard = () => {
             <Form.Control
               type="password"
               placeholder="Password"
-              value={formFields.password}
+              value={loginFields.password}
               onChange={onPasswordChange}
             />
           </Form.Group>

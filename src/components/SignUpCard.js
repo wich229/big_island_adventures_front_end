@@ -7,39 +7,39 @@ import axios from "axios";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
-const SignUpCard = () => {
-  const [formFields, setFormFields] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    //session_id: "",
-  });
+const SignUpCard = ({ signupFields, setSignupFields }) => {
+  // const [signupFields, setSignupFields] = useState({
+  //   name: "",
+  //   email: "",
+  //   password: "",
+  //   phone: "",
+  //   //session_id: "",
+  // });
 
   const onNameChange = (event) => {
-    setFormFields({
-      ...formFields,
+    setSignupFields({
+      ...signupFields,
       name: event.target.value,
     });
   };
 
   const onEmailChange = (event) => {
-    setFormFields({
-      ...formFields,
+    setSignupFields({
+      ...signupFields,
       email: event.target.value,
     });
   };
 
   const onPasswordChange = (event) => {
-    setFormFields({
-      ...formFields,
+    setSignupFields({
+      ...signupFields,
       password: event.target.value,
     });
   };
 
   const onPhoneChange = (event) => {
-    setFormFields({
-      ...formFields,
+    setSignupFields({
+      ...signupFields,
       phone: event.target.value,
     });
   };
@@ -47,13 +47,13 @@ const SignUpCard = () => {
   const onSignUp = async (event) => {
     event.preventDefault();
     axios
-      .post(`${kBaseUrl}/customers/register`, formFields)
+      .post(`${kBaseUrl}/customers/register`, signupFields)
       .then((response) => {
         // console.log(response);
         console.log(response.data);
         window.confirm("Sign Up Successful");
-        // setFormFields({
-        //   ...formFields,
+        // setsignupFields({
+        //   ...signupFields,
         //   session_id: response.data.id,
         // });
       })
@@ -72,7 +72,7 @@ const SignUpCard = () => {
             <Form.Control
               type="name"
               placeholder="name"
-              value={formFields.name}
+              value={signupFields.name}
               onChange={onNameChange}
             />
           </Form.Group>
@@ -82,7 +82,7 @@ const SignUpCard = () => {
             <Form.Control
               type="email"
               placeholder="Enter email"
-              value={formFields.email}
+              value={signupFields.email}
               onChange={onEmailChange}
             />
           </Form.Group>
@@ -92,7 +92,7 @@ const SignUpCard = () => {
             <Form.Control
               type="password"
               placeholder="Password"
-              value={formFields.password}
+              value={signupFields.password}
               onChange={onPasswordChange}
             />
           </Form.Group>
@@ -102,7 +102,7 @@ const SignUpCard = () => {
             <Form.Control
               type="phone"
               placeholder="Phone"
-              value={formFields.phone}
+              value={signupFields.phone}
               onChange={onPhoneChange}
             />
           </Form.Group>
