@@ -1,3 +1,86 @@
-.booking-name{
+.booking-form{
+    margin: 0 auto;
+    border:1px solid rgba(0, 0, 0, 0.228);
+    border-radius: 15px;
+    padding: 1rem;
+    margin-top:1.5rem;
+    width: 25rem;
+    text-align: center;
+    box-shadow: -16px 21px 22px -6px rgba(0,0,0,0.66);
+    border: 1px solid rgba(60, 60, 60, 0.184);
+    margin-left:1rem;
+    margin-bottom: 2rem;
+}
+
+.all-labels{
+    font-weight: bold;
+    color:rgba(0, 0, 0, 0.665);
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.ticket-number{
+    width:3rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.add-tickets{
+    display: flex;
+    justify-content: center;
+}
+
+.tickets-container{
+    margin: 1rem;
+    padding-bottom: 1rem;
+    color: white;
+    width: 90%;
+    border-bottom: 1px solid black;
+}
+
+.when-where-price-tour{
+    margin: 1rem;
+}
+
+.when{
+    margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+.where{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    white-space: 'pre-wrap';
+    overflow-wrap: 'break-word';
+}
+
+.nav-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.go-back-btn{
+    margin: 1rem;
+}
+
+.review-btn{
+    margin: 1rem;
+}
+
+.ticket-label{
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.client-page-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.booking-name{
+    margin: 0 auto;
+    margin-top: .5rem;
+    margin-bottom: 0.5rem;
 }

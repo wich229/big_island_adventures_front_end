@@ -50,7 +50,8 @@ const BookingForm = ({
         <Form onSubmit={handleSubmit} className="booking-form"> 
         <section className="when-where-price-tour">
             <Form.Group>
-                <Form.Control placeholder="Enter name..." className="booking-name" />
+            <Form.Label className="all-labels">Name</Form.Label><br/>
+                <Form.Control placeholder="Enter here..." className="booking-name" />
             </Form.Group>
 
             <Form.Group>
