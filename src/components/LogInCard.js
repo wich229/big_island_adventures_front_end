@@ -5,6 +5,9 @@ import "./LoginSignUpCard.css";
 import "../App.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useContext } from 'react';
+import { UserContext } from '../UserContext';
+
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -14,6 +17,8 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
   //   password: "",
   //   // session_id: "",
   // });
+  const { setUser } = useContext(UserContext);
+  
 
   const onEmailChange = (event) => {
     setLoginFields({
@@ -34,9 +39,10 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
     axios
       .post(`${kBaseUrl}/customers/login`, loginFields)
       .then((response) => {
-        console.log(response.data);
+        console.log("response data" + Object.entries(response.data));
         window.confirm("Login Successful");
-        setCurrentUser(response.data);
+        // setCurrentUser(response.data);
+        setUser([response.data]);
       })
       .catch((error) => {
         //console.log(error.response);

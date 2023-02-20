@@ -2,16 +2,19 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   width: auto;
-  height: 300px;
+  height: 425px;
   object-fit: fill;
 }
 
 .event-card {
   border-radius: 15px;
   width: 300px;
-  height: 500px;
+  height: 650px;
   margin: 10px;
+  box-shadow: -16px 21px 22px -6px rgba(0,0,0,0.66);
+
 }
+
 
 .tour-title{
     flex: 1;
@@ -24,11 +27,14 @@
     flex-direction: column;
     width: 100%;
     justify-content: center;
+    height:225px;
+    text-align: center;
+
     
 }
 
 .more-info-btn{
-    margin-top: 1rem;
+    margin: 0 auto;
 }
 
 .card-date{

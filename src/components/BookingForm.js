@@ -20,33 +20,18 @@ const BookingForm = ({
   setIsLogin,
   currentUser,
 }) => {
-<<<<<<< HEAD
-  const checkLogin = () => {
-    console.log("current User: " + currentUser.id)
-    axios
-      .get(`${kBaseUrl}/customers/@user`)
-      .then((response) => {
-        if (response.data.id){
-            setIsLogin(true);
-        }
-        console.log("response" + response.data);
-        //window.confirm("Login Successful");
-      })
-      .catch((error) => {
-        //console.log(error.response);
-        alert(error.response.data.error);
-      });
-  };
-
-  // event handlers
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("IM here")
-    checkLogin();
-    console.log(isLogin);
-=======
+  console.log(currentUser.id)
   let canClick = currentUser.id ? setIsLogin(true) : setIsLogin(false);
+  let userName;
+  const booking = {
+    "customer_id": currentUser.id,
+    "tour_id": tour.id,
+    "booking_date": new Date(),
+    "status": "active",
+    "tickets": numTickets,
+    "name": userName,
 
+  }
   // const checkLogin = () => {
   //   axios
   //     .post(`${kBaseUrl}/customers/@user`, currentUser.id)
@@ -70,11 +55,14 @@ const BookingForm = ({
   // event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
+    setBookingData(booking)
+    console.log(Object.entries(bookingData))
   };
 
+  const getName = ({target:{value}}) => userName=value;
+  
   const notHandleSubmit = (e) => {
     alert("please sign in");
->>>>>>> 72e0b337d5dc794800b3ae223309d73ddaa89679
   };
 
   // handle increase and decrease in ticket count
@@ -105,19 +93,14 @@ const BookingForm = ({
   const capacity = tour.capacity;
 
   return (
-<<<<<<< HEAD
-    <Form  onSubmit={handleSubmit} className="booking-form">
-=======
-    <Form
-      onSubmit={isLogin === true ? handleSubmit : notHandleSubmit}
+    <Form onSubmit={isLogin === true ? handleSubmit : notHandleSubmit}
       className="booking-form"
     >
->>>>>>> 72e0b337d5dc794800b3ae223309d73ddaa89679
       <section className="when-where-price-tour">
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
           <br />
-          <Form.Control placeholder="Enter here..." className="booking-name" />
+          <input onChange={getName} value={getName} placeholder="Enter here..." className="booking-name" />
         </Form.Group>
 
         <Form.Group>
@@ -169,13 +152,6 @@ const BookingForm = ({
           </Button>
         </Link>
         <Link
-<<<<<<< HEAD
-          to={{
-            pathname: "/confirmation",
-            state: { bookingData },
-          }}>
-          <Button onClick={handleSubmit} className="review-btn" variant="secondary" type="submit">
-=======
           to={
             isLogin === true
               ? {
@@ -185,8 +161,11 @@ const BookingForm = ({
               : ""
           }
         >
-          <Button className="review-btn" variant="secondary" type="submit">
->>>>>>> 72e0b337d5dc794800b3ae223309d73ddaa89679
+          <Button 
+          onClick={canClick} 
+          className="review-btn" 
+          variant="secondary" 
+          type="submit">
             Review
           </Button>
         </Link>
