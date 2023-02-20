@@ -37,6 +37,12 @@ const Client = () => {
     password: "",
     phone: "",
   });
+  // if isLogin is true procress to the booking
+  // if isLogin is false showing the LogInCard (add <a> link to the SignUpCard)
+  const [isLogin, setIisLogin] = useState(false);
+  const toggleLogInCard = () => {
+    setIisLogin(!isLogin);
+  };
 
   const date = new Date(tour.time);
   const formattedDate = date.toLocaleString("en-US", options);
@@ -59,11 +65,16 @@ const Client = () => {
         <SecNav page={page} />
       </section>
       <section className="client-page-container">
-        <LogInCard loginFields={loginFields} setLoginFields={setLoginFields} />
-        <SignUpCard
+        {!isLogin && (
+          <LogInCard
+            loginFields={loginFields}
+            setLoginFields={setLoginFields}
+          />
+        )}
+        {/* <SignUpCard
           signupFields={signupFields}
           setSignupFields={setSignupFields}
-        />
+        /> */}
         <section>
           <BookingForm
             tour={tour}
@@ -75,6 +86,7 @@ const Client = () => {
             setPrice={setPrice}
             bookingData={bookingData}
             setBookingData={setBookingData}
+            toggleLogInCard={toggleLogInCard}
           ></BookingForm>
         </section>
       </section>
