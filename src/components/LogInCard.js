@@ -7,7 +7,7 @@ import axios from "axios";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
-const LogInCard = ({ loginFields, setLoginFields }) => {
+const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
   // const [loginFields, setLoginFields] = useState({
   //   email: "",
   //   password: "",
@@ -35,10 +35,7 @@ const LogInCard = ({ loginFields, setLoginFields }) => {
       .then((response) => {
         console.log(response.data);
         window.confirm("Login Successful");
-        // setloginFields({
-        //   ...loginFields,
-        //   session_id: response.data.id,
-        // });
+        setCurrentUser(response.data);
       })
       .catch((error) => {
         //console.log(error.response);

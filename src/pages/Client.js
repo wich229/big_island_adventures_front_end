@@ -37,12 +37,14 @@ const Client = () => {
     password: "",
     phone: "",
   });
+  const [currentUser, setCurrentUser] = useState({});
+
   // if isLogin is true procress to the booking
   // if isLogin is false showing the LogInCard (add <a> link to the SignUpCard)
-  const [isLogin, setIisLogin] = useState(false);
-  const toggleLogInCard = () => {
-    setIisLogin(!isLogin);
-  };
+  const [isLogin, setIsLogin] = useState(false);
+  // const toggleLogInCard = () => {
+  //   setIsLogin(!isLogin);
+  // };
 
   const date = new Date(tour.time);
   const formattedDate = date.toLocaleString("en-US", options);
@@ -69,6 +71,8 @@ const Client = () => {
           <LogInCard
             loginFields={loginFields}
             setLoginFields={setLoginFields}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
           />
         )}
         {/* <SignUpCard
@@ -86,7 +90,10 @@ const Client = () => {
             setPrice={setPrice}
             bookingData={bookingData}
             setBookingData={setBookingData}
-            toggleLogInCard={toggleLogInCard}
+            //toggleLogInCard={toggleLogInCard}
+            isLogin={isLogin}
+            setIsLogin={setIsLogin}
+            currentUser={currentUser}
           ></BookingForm>
         </section>
       </section>

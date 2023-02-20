@@ -2,6 +2,7 @@ import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./BookingForm.css";
 import axios from "axios";
+import { useEffect } from "react";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -17,10 +18,11 @@ const BookingForm = ({
   setBookingData,
   isLogin,
   setIsLogin,
+  currentUser,
 }) => {
   const checkLogin = () => {
     axios
-      .get(`${kBaseUrl}/customers/@user`)
+      .post(`${kBaseUrl}/customers/@user`, currentUser.id)
       .then((response) => {
         setIsLogin(true);
         console.log(response.data);
@@ -33,9 +35,16 @@ const BookingForm = ({
       });
   };
 
+  useEffect(() => {
+    checkLogin();
+    console.log(isLogin);
+  }, []);
+
   // event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
+    // checkLogin();
+    console.log(isLogin);
   };
 
   // handle increase and decrease in ticket count
