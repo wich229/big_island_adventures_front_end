@@ -51,54 +51,62 @@ const getTourByid = (tour_id) => {
 
 const Dashboard = () => {
   const [booking, setBooking] = useState([]);
-  const [tour, setTour] = useState([]);
+  const [tour_ids, setTour_ids] = useState([]);
 
+  //loading user booking data
   useEffect(() => {
+    console.log("user.id: " + user.id);
     getBookingByid(user.id)
       .then((bookingData) => {
+        console.log(bookingData);
         setBooking(
-          bookingData.map((data) => {
-            return data;
+          bookingData.map((eachBooking) => {
+            return eachBooking;
           })
         );
-        console.log(booking);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  const tourIdArr = booking.map((data) => {
-    return data.tour_id;
-  });
-
+  //organize the tour_id
   useEffect(() => {
-    console.log("here");
-    const tourDataArr = tourIdArr.map((id) => getTourByid(id));
+    getBookingByid(user.id)
+      .then((bookingData) => {
+        setTour_ids(
+          bookingData.map((data) => {
+            return data.tour_id;
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  //loading tour data and combin with booking
+  useEffect(() => {
+    const tourDataArr = tour_ids.map((id) => getTourByid(id));
     Promise.all(tourDataArr).then((datas) => {
-      setTour(
-        datas.map((eachData) => {
-          return eachData;
+      console.log(datas);
+      setBooking(
+        datas.map((data, i) => {
+          const combinData = { ...booking[i], ...data };
+          console.log("combinData");
+          console.log(combinData);
+          return combinData;
         })
       );
-      console.log(tour);
     });
   }, []);
 
-  const combinningData = (booking, tour) => {
-    const result = [];
-    for (let i = 0; i < booking.length; ++i) {
-      let tmp = { ...booking[i], ...tour[i] };
-      result.push(tmp);
-    }
-    return result;
-  };
+  // console.log("final");
+  // console.log(booking);
 
-  console.log(combinningData(booking, tour));
-
-  const result = combinningData(booking, tour).map((data) => {
+  const printOutDatas = booking.map((data) => {
     return (
-      <tr>
+      <tr key={data.id}>
         <td>{data.name}</td>
         <td>{data.date}</td>
         <td>{data.tickets}</td>
@@ -133,14 +141,7 @@ const Dashboard = () => {
               <td>totla price</td>
               <td>status</td>
             </tr>
-            {result}
-            {/* <tr>
-              <td>data</td>
-              <td>data</td>
-              <td>data</td>
-              <td>data</td>
-              <td>data</td>
-            </tr> */}
+            {printOutDatas}
             <tr>
               <th colSpan={5}>
                 <Link to="/">
