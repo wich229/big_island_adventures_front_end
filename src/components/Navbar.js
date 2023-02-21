@@ -28,9 +28,7 @@ function TopNav() {
             <Link to="/about">
               <Button variant="outline-secondary">About</Button>
             </Link>{" "}
-            <Link to="/login">
-              <Button variant="outline-secondary">Sign In</Button>
-            </Link>{" "}
+           
             <Link to="/signup">
               <Button variant="outline-secondary">Sign Up</Button>
             </Link>{" "}
