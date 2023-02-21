@@ -4,9 +4,7 @@ import Form from "react-bootstrap/Form";
 import "./LoginSignUpCard.css";
 import "../App.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useContext } from 'react';
-import { UserContext } from '../UserContext';
+import { Link, useNavigate } from "react-router-dom";
 
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
@@ -17,8 +15,7 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
   //   password: "",
   //   // session_id: "",
   // });
-  const { setUser } = useContext(UserContext);
-  
+  let history = useNavigate();
 
   const onEmailChange = (event) => {
     setLoginFields({
@@ -35,17 +32,20 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
   };
 
   const onSignIn = (event) => {
+    
     event.preventDefault();
     axios
       .post(`${kBaseUrl}/customers/login`, loginFields)
       .then((response) => {
         console.log("response data" + Object.entries(response.data));
         window.confirm("Login Successful");
-        // setCurrentUser(response.data);
-        setUser([response.data]);
+        localStorage.setItem('user', JSON.stringify({ ...response.data }));
+        history.push('/confirmation');
+        history.push('/');
+        history.push('/dashboard');
+        history.push('/tours');
       })
       .catch((error) => {
-        //console.log(error.response);
         alert(error.response.data.error);
       });
   };

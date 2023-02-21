@@ -1,7 +1,6 @@
-
 // RouterProvider => tell React start rendering different components or path
 //createBrowserRouter => configure the router
-import {  RouterProvider, createBrowserRouter} from "react-router-dom";
+import {  RouterProvider, createBrowserRouter } from "react-router-dom";
 import RootLayout from "./RootLayout";
 import Home from "./pages/Home";
 import EventsPage from "./pages/EventsPage";
@@ -13,7 +12,6 @@ import ErrorPage from "./pages/Error";
 import Client from "./pages/Client";
 import ConfirmBooking from "./pages/ConfirmBooking";
 import Dashboard from "./pages/Dashboard";
-import { UserProvider } from './UserContext';
 
 const router = createBrowserRouter([
   {
@@ -35,8 +33,8 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return (<UserProvider>
-    <RouterProvider router={router} /></UserProvider>)
+  return (
+    <RouterProvider router={router} />)
 };
 
 export default App;

@@ -7,7 +7,7 @@ import { Button, Table } from "react-bootstrap";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 const page = "dashboard";
-
+const user = JSON.parse(localStorage.getItem('user'));
 //--------------------- BOOKING API CALL --------------------------------
 const getBookingByid = (user_id) => {
   return axios
@@ -47,7 +47,7 @@ const getUserByid = (user_id) => {
 const Dashboard = () => {
   const [booking, setBooking] = useState([]);
   const [tour, setTour] = useState([]);
-  const [user, setUser] = useState([]);
+  // const [user, setUser] = useState([]);
 
   useEffect(() => {
     // getBookingByid(1)
@@ -63,7 +63,7 @@ const Dashboard = () => {
     getUserByid({ id: 1 })
       .then((userData) => {
         // console.log(userData);
-        setUser(userData);
+        //setUser(userData);
         console.log(user);
       })
       .catch((error) => {
@@ -77,6 +77,7 @@ const Dashboard = () => {
         <SecNav page={page} />
       </section>
       <section className="info-table">
+        <h1>HEy! {user.name}</h1>
         <Table striped bordered hover>
           <thead>
             <tr>
