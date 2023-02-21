@@ -52,6 +52,8 @@ const BookingForm = ({
     nextPage = "/confirmation"
     helpers.refreshPage();
   };
+
+  const getName = ({target:{value}}) => userName=value;
   
   const notHandleSubmit = (e) => {
     e.preventDefault();
