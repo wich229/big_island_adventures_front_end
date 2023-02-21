@@ -12,11 +12,11 @@ const user = JSON.parse(localStorage.getItem("user"));
 //--------------------- BOOKING API CALL --------------------------------
 const getBookingByid = (user_id) => {
   return axios
-    .get(`${kBaseUrl}/bookings/1/transctions`)
+    .get(`${kBaseUrl}/bookings/${user_id}/transctions`)
     .then((response) => {
       const bookingData = response.data.map((data) => {
         return {
-          date: data.booking_date,
+          // date: data.booking_date,
           customer_id: data.customer_id,
           tour_id: data.tour_id,
           status: data.status,
@@ -30,20 +30,24 @@ const getBookingByid = (user_id) => {
     });
 };
 
-//--------------------- USER API CALL -----------------------------------
-// const getUserByid = (user_id) => {
-//   return axios
-//     .post(`${kBaseUrl}/customers/@user`, user_id)
-//     .then((response) => {
-//       console.log(response.data);
-//       //window.confirm("Login Successful");
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
-
 //--------------------- TOUR API CALL -----------------------------------
+const getTourByid = (tour_id) => {
+  return axios
+    .get(`${kBaseUrl}/tours/${tour_id}`)
+    .then((response) => {
+      return {
+        id: response.data["id"],
+        name: response.data["name"],
+        city: response.data["city"],
+        price: response.data["price"],
+        time: response.data["time"],
+        date: response.data["date"],
+      };
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 const Dashboard = () => {
   const [booking, setBooking] = useState([]);
@@ -52,24 +56,57 @@ const Dashboard = () => {
   useEffect(() => {
     getBookingByid(user.id)
       .then((bookingData) => {
-        console.log(bookingData);
-        setBooking(bookingData);
+        setBooking(
+          bookingData.map((data) => {
+            return data;
+          })
+        );
         console.log(booking);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    //   getUserByid({ id: 1 })
-    //     .then((userData) => {
-    //       // console.log(userData);
-    //       //setUser(userData);
-    //       console.log(user);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
   }, []);
+
+  const tourIdArr = booking.map((data) => {
+    return data.tour_id;
+  });
+
+  useEffect(() => {
+    console.log("here");
+    const tourDataArr = tourIdArr.map((id) => getTourByid(id));
+    Promise.all(tourDataArr).then((datas) => {
+      setTour(
+        datas.map((eachData) => {
+          return eachData;
+        })
+      );
+      console.log(tour);
+    });
+  }, []);
+
+  const combinningData = (booking, tour) => {
+    const result = [];
+    for (let i = 0; i < booking.length; ++i) {
+      let tmp = { ...booking[i], ...tour[i] };
+      result.push(tmp);
+    }
+    return result;
+  };
+
+  console.log(combinningData(booking, tour));
+
+  const result = combinningData(booking, tour).map((data) => {
+    return (
+      <tr>
+        <td>{data.name}</td>
+        <td>{data.date}</td>
+        <td>{data.tickets}</td>
+        <td>{data.price * data.tickets}</td>
+        <td>{data.status}</td>
+      </tr>
+    );
+  });
 
   return (
     <main>
@@ -77,14 +114,13 @@ const Dashboard = () => {
         <SecNav page={page} />
       </section>
       <section className="info-table">
-        <h1>HEy! {user.name}</h1>
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th colSpan={4}>
+              <th colSpan={5}>
                 <ol>
-                  <li>Name:</li>
-                  <li>Email:</li>
+                  <li>Name: {user.name}</li>
+                  <li>Email: {user.email}</li>
                 </ol>
               </th>
             </tr>
@@ -94,16 +130,19 @@ const Dashboard = () => {
               <td>event name</td>
               <td>date</td>
               <td>tickets number</td>
+              <td>totla price</td>
               <td>status</td>
             </tr>
+            {result}
+            {/* <tr>
+              <td>data</td>
+              <td>data</td>
+              <td>data</td>
+              <td>data</td>
+              <td>data</td>
+            </tr> */}
             <tr>
-              <td>data</td>
-              <td>data</td>
-              <td>data</td>
-              <td>data</td>
-            </tr>
-            <tr>
-              <th colSpan={4}>
+              <th colSpan={5}>
                 <Link to="/">
                   <Button variant="secondary" className="go-back-btn">
                     Go Back
