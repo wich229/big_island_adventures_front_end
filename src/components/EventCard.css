@@ -20,6 +20,7 @@
     flex: 1;
     margin-bottom:1rem;
     top: 0;
+    height: 100px;
 }
 
 .card-body{
@@ -34,7 +35,8 @@
 }
 
 .more-info-btn{
-    margin: 0 auto;
+  height: 100%;
+  bottom: 0;
 }
 
 .card-date{

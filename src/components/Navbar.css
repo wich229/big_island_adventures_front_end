@@ -13,19 +13,18 @@
 }
 
 .navbar-container > .container {
-  width: 90%;
+  width: 100%;
 }
 
 .turtle-logo{
-    min-width:10rem;
+  width: 300px;
+    min-width:300px;
 }
 
 .turtle-logo {
   width: 28vw;
   height: 7%;
 }
-
-.navbar-container{}
 
 .header-links{
     min-width:fit-content
