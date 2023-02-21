@@ -7,16 +7,23 @@ import logo2 from "../images/Big Island Adventures(5)(1).png";
 import "./Navbar.css";
 const user = JSON.parse(localStorage.getItem('user'));
 
-
 function TopNav() {
+  const logOut = () =>{
+    localStorage.removeItem('user');
+   // localStorage.removeItem('booking');
+
+  }
   const signedIn = () =>{
     if (user){
     return (
       <section> 
     <Navbar.Toggle />
     <Navbar.Collapse className="justify-content-end">
-    <Navbar.Text>
-        Signed in as: <a href="#login">{user.name}</a>
+    <Navbar.Text className="signed-in">
+        Signed in as: <a href="/dashboard">{user.name}</a>
+      </Navbar.Text>
+      <Navbar.Text className="log-out">
+        <a onClick={logOut} href="/">Log out</a>
       </Navbar.Text>
     </Navbar.Collapse>
     </section>    

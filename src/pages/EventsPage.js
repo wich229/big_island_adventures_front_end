@@ -11,9 +11,9 @@ import FilterCheckboxes from "../components/FilterCheckboxes";
 import DatePicker from "react-datepicker";
 import WeatherLocationSelecter from "../components/WeatherLocationSelecter";
 import "react-datepicker/dist/react-datepicker.css";
+import * as constants from '../Constants';
 
 //--------------------- TOURS API CALL ---------------------------------------
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 const page = "tours";
 
 //--------------------- Weather API CALL -------------------------------------
@@ -137,7 +137,7 @@ const EventsPage = () => {
 
   const getAllTours = () => {
     axios
-      .get(`${kBaseUrl}/tours`)
+      .get(`${constants.kBaseUrl}/tours`)
       .then((response) => {
         setTours(response.data);
       })
@@ -171,7 +171,7 @@ const EventsPage = () => {
   useEffect(() => {
     axios
       .get(
-        `${kBaseUrl}/tours?city=${weatherLocation}&${givingSuggestionByWeather(
+        `${constants.kBaseUrl}/tours?city=${weatherLocation}&${givingSuggestionByWeather(
           forecast
         )}`
       )
@@ -191,7 +191,7 @@ const EventsPage = () => {
 
   useEffect(() => {
     axios
-      .get(`${kBaseUrl}/tours?${transformFilterRequest(filters)}`)
+      .get(`${constants.kBaseUrl}/tours?${transformFilterRequest(filters)}`)
       .then((response) => {
         setTours(response.data);
       })

@@ -5,10 +5,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookingForm from "../components/BookingForm";
 import LogInCard from "../components/LogInCard";
-import SignUpCard from "../components/SignUpCard";
+// import SignUpCard from "../components/SignUpCard";
 import axios from "axios";
-
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
+import * as constants from '../Constants';
 
 const Client = () => {
   const param = useParams();
@@ -23,7 +22,6 @@ const Client = () => {
   };
 
   // --------STATE------
-  const [numTickets, setNumTickets] = useState(1);
   const [tour, setTourState] = useState({});
   const [price, setPrice] = useState(0);
   const [bookingData, setBookingData] = useState({});
@@ -31,25 +29,15 @@ const Client = () => {
     email: "",
     password: "",
   });
-  // const [signupFields, setSignupFields] = useState({
-  //   name: "",
-  //   email: "",
-  //   password: "",
-  //   phone: "",
-  // });
-  const [currentUser, setCurrentUser] = useState({});
-
   // if isLogin is true procress to the booking
   // if isLogin is false showing the LogInCard (add <a> link to the SignUpCard)
   const [isLogin, setIsLogin] = useState(false);
-  const [showSingUp, setShowSingUp] = useState(false);
-
   const date = new Date(tour.time);
   const formattedDate = date.toLocaleString("en-US", options);
 
   useEffect(() => {
     axios
-      .get(`${kBaseUrl}/tours/${param.id}`)
+      .get(`${constants.kBaseUrl}/tours/${param.id}`)
       .then((response) => {
         setTourState(response.data);
         setPrice(response.data.price);
@@ -58,22 +46,19 @@ const Client = () => {
         console.log(error);
       });
   }, [param.id]);
-
   
   return (
     <main>
       <section>
         <SecNav page={page} />
       </section>
+
       <section className="client-page-container">
         {!isLogin && (
           <LogInCard
+            setIsLogin={setIsLogin}
             loginFields={loginFields}
             setLoginFields={setLoginFields}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-            showSingUp={showSingUp}
-            setShowSingUp={setShowSingUp}
           />
         )}
         {/* <SignUpCard
@@ -85,16 +70,12 @@ const Client = () => {
             tour={tour}
             formattedDate={formattedDate}
             param={param}
-            numTickets={numTickets}
-            setNumTickets={setNumTickets}
             price={price}
             setPrice={setPrice}
             bookingData={bookingData}
             setBookingData={setBookingData}
-            //toggleLogInCard={toggleLogInCard}
             isLogin={isLogin}
             setIsLogin={setIsLogin}
-            currentUser={currentUser}
           ></BookingForm>
         </section>
       </section>

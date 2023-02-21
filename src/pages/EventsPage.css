@@ -20,12 +20,21 @@
   text-align: center;
 }
 
+.form-select {
+  width: 30%;
+  margin: 0 auto;
+}
+
+h4 {
+  text-align: center;
+}
+
 .weather-section {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin: 3rem;
+  justify-content: center; */
+  margin: 5rem;
 }
 
 .event-card-container {
@@ -36,7 +45,7 @@
   margin-right: 1rem;
 }
 
-.page-btns{
-    margin: 2rem;
-    text-align: center;
+.page-btns {
+  margin: 2rem;
+  text-align: center;
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import "./Footer.css";
-import Nav from "react-bootstrap/Nav";
 import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = () => {

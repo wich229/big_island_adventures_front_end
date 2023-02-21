@@ -4,16 +4,15 @@ import Form from "react-bootstrap/Form";
 import "./LoginSignUpCard.css";
 import "../App.css";
 import axios from "axios";
+import * as constants from '../Constants';
 
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const SignUpCard = () => {
   const [signupFields, setSignupFields] = useState({
     name: "",
     email: "",
     password: "",
-    phone: "",
-    //session_id: "",
+    phone: ""
   });
 
   const onNameChange = (event) => {
@@ -47,7 +46,7 @@ const SignUpCard = () => {
   const onSignUp = async (event) => {
     event.preventDefault();
     axios
-      .post(`${kBaseUrl}/customers/register`, signupFields)
+      .post(`${constants.kBaseUrl}/customers/register`, signupFields)
       .then((response) => {
         // console.log(response);
         console.log(response.data);

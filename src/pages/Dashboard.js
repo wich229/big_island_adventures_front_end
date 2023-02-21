@@ -4,18 +4,22 @@ import axios from "axios";
 import SecNav from "../components/SecNav";
 import "./Dashboard.css";
 import { Button, Table } from "react-bootstrap";
+import helpers from "../Helpers";
+import * as constants from '../Constants';
 
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
+
 const page = "dashboard";
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem("user"));
+const booking = JSON.parse(localStorage.getItem("booking"));
+
 //--------------------- BOOKING API CALL --------------------------------
 const getBookingByid = (user_id) => {
   return axios
-    .get(`${kBaseUrl}/bookings/1/transctions`)
+    .get(`${constants.kBaseUrl}/bookings/${user_id}/transctions`)
     .then((response) => {
       const bookingData = response.data.map((data) => {
         return {
-          date: data.booking_date,
+          // date: data.booking_date,
           customer_id: data.customer_id,
           tour_id: data.tour_id,
           status: data.status,
@@ -29,47 +33,92 @@ const getBookingByid = (user_id) => {
     });
 };
 
-//--------------------- USER API CALL -----------------------------------
-const getUserByid = (user_id) => {
+//--------------------- TOUR API CALL -----------------------------------
+const getTourByid = (tour_id) => {
   return axios
-    .post(`${kBaseUrl}/customers/@user`, user_id)
+    .get(`${constants.kBaseUrl}/tours/${tour_id}`)
     .then((response) => {
-      console.log(response.data);
-      //window.confirm("Login Successful");
+      return {
+        id: response.data["id"],
+        name: response.data["name"],
+        city: response.data["city"],
+        price: response.data["price"],
+        time: response.data["time"],
+        date: response.data["date"],
+      };
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-//--------------------- TOUR API CALL -----------------------------------
-
 const Dashboard = () => {
   const [booking, setBooking] = useState([]);
-  const [tour, setTour] = useState([]);
-  // const [user, setUser] = useState([]);
+  const [tour_ids, setTour_ids] = useState([]);
 
+  //loading user booking data
   useEffect(() => {
-    // getBookingByid(1)
-    //   .then((bookingData) => {
-    //     console.log(bookingData);
-    //     setBooking(bookingData);
-    //     console.log(booking);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
-    getUserByid({ id: 1 })
-      .then((userData) => {
-        // console.log(userData);
-        //setUser(userData);
-        console.log(user);
+    console.log("user.id: " + user.id);
+    getBookingByid(user.id)
+      .then((bookingData) => {
+        console.log(bookingData);
+        const bmap = bookingData.map((eachBooking) => {
+          return eachBooking;
+        })
+        setBooking( [...bmap] 
+        );
+        console.log("booking" + [...booking])
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  // organize the tour_id
+  useEffect(() => {
+    getBookingByid(user.id)
+      .then((bookingData) => {
+        setTour_ids(
+          bookingData.map((data) => {
+            return data.tour_id;
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  //loading tour data and combin with booking
+  useEffect(() => {
+    const tourDataArr = tour_ids.map((id) => getTourByid(id));
+    Promise.all(tourDataArr).then((datas) => {
+      console.log(datas);
+      setBooking(
+        datas.map((data, i) => {
+          const combinData = { ...booking[i], ...data };
+          console.log("combinData");
+          console.log(combinData);
+          return combinData;
+        })
+      );
+    });
+  }, []);
+
+  // console.log("final");
+  // console.log(booking);
+
+  const printOutDatas = booking.map((data) => {
+    return (
+      <tr key={data.id}>
+        <td>{data.name}</td>
+        <td>{data.date}</td>
+        <td>{data.tickets}</td>
+        <td>{data.price * data.tickets}</td>
+        <td>{data.status}</td>
+      </tr>
+    );
+  });
 
   return (
     <main>
@@ -77,14 +126,13 @@ const Dashboard = () => {
         <SecNav page={page} />
       </section>
       <section className="info-table">
-        <h1>HEy! {user.name}</h1>
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th colSpan={4}>
+              <th colSpan={5}>
                 <ol>
-                  <li>Name:</li>
-                  <li>Email:</li>
+                  <li>Name: {user.name}</li>
+                  <li>Email: {user.email}</li>
                 </ol>
               </th>
             </tr>
@@ -94,16 +142,12 @@ const Dashboard = () => {
               <td>event name</td>
               <td>date</td>
               <td>tickets number</td>
+              <td>total price</td>
               <td>status</td>
             </tr>
+            {printOutDatas}
             <tr>
-              <td>data</td>
-              <td>data</td>
-              <td>data</td>
-              <td>data</td>
-            </tr>
-            <tr>
-              <th colSpan={4}>
+              <th colSpan={5}>
                 <Link to="/">
                   <Button variant="secondary" className="go-back-btn">
                     Go Back

@@ -1,90 +1,93 @@
 import { Form, Button } from "react-bootstrap";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./BookingForm.css";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import helpers from "../Helpers";
+import * as constants from "../Constants"
 
 const BookingForm = ({
   tour,
   formattedDate,
   param,
-  numTickets,
-  setNumTickets,
   price,
   setPrice,
   bookingData,
   setBookingData,
-  isLogin,
-  setIsLogin,
-  currentUser,
+  setIsLogin
+
 }) => { 
   const user = JSON.parse(localStorage.getItem('user'));
-  let canClick = user ? setIsLogin(true) : setIsLogin(false);
-
-  let userName;
-  const currentBooking = {
-    "customer_id": currentUser.id,
-    "tour_id": tour.id,
-    "booking_date": new Date(),
-    "status": "active",
-    "tickets": numTickets,
-    "name": userName,
-
-  }
+  user ? setIsLogin(true) : setIsLogin(false);
+  const [userName, setUserName] = useState('');
+  const [numTickets, setNumTickets] = useState(1);
   let history = useNavigate();
-  
-  // const checkLogin = () => {
-  //   axios
-  //     .post(`${kBaseUrl}/customers/@user`, currentUser.id)
-  //     .then((response) => {
-  //       setIsLogin(true);
-  //       console.log(response.data);
-  //       //window.confirm("Login Successful");
-  //     })
-  //     .catch((error) => {
-  //       setIsLogin(false);
-  //       //console.log(error.response);
-  //       alert(error.response.data.error);
-  //     });
-  // };
+  let nextPage; 
+/*   let available_capacity = tour.capacity
 
-  // useEffect(() => {
-  //   checkLogin();
-  //   console.log(isLogin);
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(`${constants.kBaseUrl}/tours/${tour.id}/capacity`)
+      .then((response) => {
+        let availableCapacity=response.data["available_capacity"]
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [numTickets]); */
 
   // event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("HELLO!!!")
+    const currentBooking = {
+      "tour": {...tour},
+      "status": "active",
+      "tickets": numTickets,
+      "name": userName,
+      "price": price,
+      "user_id": user.id
+    }
     localStorage.setItem('booking', JSON.stringify({ ...currentBooking}));
     history(`/confirmation`);
-    console.log("history" + Object.entries(currentBooking))
+    nextPage = "/confirmation"
+    helpers.refreshPage();
   };
   
   const notHandleSubmit = (e) => {
+    e.preventDefault();
+    nextPage=''
     alert("please sign in");
   };
+  
+  const getUserName = (e) =>{
+    e.preventDefault();
+    setUserName(e.target.value)
+  }
+
+  const getNumTickets = (e) =>{
+    e.preventDefault();
+    setNumTickets(e.target.value)
+  }
 
   // handle increase and decrease in ticket count
-  const increaseTickets = () => {
-    if (numTickets <= capacity) {
+  const increaseTickets = (e) => {
+    e.preventDefault()
+    if (numTickets < capacity) {
       const incTickets = numTickets + 1;
       setNumTickets(incTickets);
       setPrice(incTickets * tour.price);
       const data = bookingData;
-      data["price"] = price;
-      data[numTickets] = numTickets;
       setBookingData(data);
     }
   };
 
-  const decreaseTickets = () => {
-    if (numTickets > 0) {
+  const decreaseTickets = (e) => {
+    e.preventDefault()
+    if (numTickets > 1) {
       const decTickets = numTickets - 1;
       setNumTickets(decTickets);
       setPrice(decTickets * tour.price);
       const data = bookingData;
-      data["price"] = price;
-      data[numTickets] = numTickets;
       setBookingData(data);
     }
   };
@@ -99,7 +102,7 @@ const BookingForm = ({
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
           <br />
-          <input value={userName} placeholder="Enter here..." className="booking-name" />
+          <input id="booking-name" onChange={getUserName} placeholder="Enter here..." className="booking-name" />
         </Form.Group>
 
         <Form.Group>
@@ -136,7 +139,7 @@ const BookingForm = ({
           <Button variant="secondary" className="ticket-btns" onClick={decreaseTickets}>
             -
           </Button>
-          <Form.Control className="ticket-number" readOnly value={numTickets} />
+          <input onChange={getNumTickets} className="ticket-number" readOnly placeholder={numTickets} />
           <Button variant="secondary" className="ticket-btns" onClick={increaseTickets}>
             +
           </Button>
@@ -150,9 +153,7 @@ const BookingForm = ({
             Go Back
           </Button>
         </Link>
-        <Link
-          to={"/confirmation"}
-        >
+        <Link to={nextPage}>
           <Button 
           onClick={user ? handleSubmit : notHandleSubmit} 
           className="review-btn" 
