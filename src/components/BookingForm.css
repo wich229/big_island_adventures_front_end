@@ -83,4 +83,14 @@
     margin: 0 auto;
     margin-top: .5rem;
     margin-bottom: 0.5rem;
+    width: 90%;
+    border-radius: 15px;
+    padding: .25rem;
+}
+
+.ticket-btns{
+    font-weight: bold;
+    font-size:large;
+    border-radius: 50%;
+    width: 2.5rem;
 }

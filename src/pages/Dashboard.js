@@ -4,15 +4,17 @@ import axios from "axios";
 import SecNav from "../components/SecNav";
 import "./Dashboard.css";
 import { Button, Table } from "react-bootstrap";
+import helpers from "../Helpers";
+import * as constants from "../Constants";
 
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 const page = "dashboard";
 const user = JSON.parse(localStorage.getItem("user"));
+const booking = JSON.parse(localStorage.getItem("booking"));
 
 //--------------------- BOOKING API CALL --------------------------------
 const getBookingByid = (user_id) => {
   return axios
-    .get(`${kBaseUrl}/bookings/${user_id}/transctions`)
+    .get(`${constants.kBaseUrl}/bookings/${user_id}/transctions`)
     .then((response) => {
       const bookingData = response.data.map((data) => {
         return {
@@ -33,7 +35,7 @@ const getBookingByid = (user_id) => {
 //--------------------- TOUR API CALL -----------------------------------
 const getTourByid = (tour_id) => {
   return axios
-    .get(`${kBaseUrl}/tours/${tour_id}`)
+    .get(`${constants.kBaseUrl}/tours/${tour_id}`)
     .then((response) => {
       return {
         id: response.data["id"],
@@ -59,18 +61,18 @@ const Dashboard = () => {
     getBookingByid(user.id)
       .then((bookingData) => {
         console.log(bookingData);
-        setBooking(
-          bookingData.map((eachBooking) => {
-            return eachBooking;
-          })
-        );
+        const bmap = bookingData.map((eachBooking) => {
+          return eachBooking;
+        });
+        setBooking([...bmap]);
+        console.log("booking" + [...booking]);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  //organize the tour_id
+  // organize the tour_id
   useEffect(() => {
     getBookingByid(user.id)
       .then((bookingData) => {
@@ -138,7 +140,7 @@ const Dashboard = () => {
               <td>event name</td>
               <td>date</td>
               <td>tickets number</td>
-              <td>totla price</td>
+              <td>total price</td>
               <td>status</td>
             </tr>
             {printOutDatas}

@@ -1,67 +1,95 @@
 import { Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./BookingForm.css";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import helpers from "../Helpers";
+import * as constants from "../Constants"
 
 const BookingForm = ({
   tour,
   formattedDate,
   param,
-  numTickets,
-  setNumTickets,
   price,
   setPrice,
   bookingData,
   setBookingData,
-  isLogin,
-  setIsLogin,
-  currentUser,
-}) => {
-  // console.log(currentUser.id);
-  let canClick = currentUser.id ? setIsLogin(true) : setIsLogin(false);
-  let userName;
-  const booking = {
-    customer_id: currentUser.id,
-    tour_id: tour.id,
-    booking_date: new Date(),
-    status: "active",
-    tickets: numTickets,
-    name: userName,
-  };
+  setIsLogin
+
+}) => { 
+  const user = JSON.parse(localStorage.getItem('user'));
+  user ? setIsLogin(true) : setIsLogin(false);
+  const [userName, setUserName] = useState('');
+  const [numTickets, setNumTickets] = useState(1);
+  let history = useNavigate();
+  let nextPage; 
+/*   let available_capacity = tour.capacity
+
+  useEffect(() => {
+    axios
+      .get(`${constants.kBaseUrl}/tours/${tour.id}/capacity`)
+      .then((response) => {
+        let availableCapacity=response.data["available_capacity"]
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [numTickets]); */
 
   // event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
-    setBookingData(booking);
-    console.log(Object.entries(bookingData));
+    const currentBooking = {
+      "tour": {...tour},
+      "status": "active",
+      "tickets": numTickets,
+      "name": userName,
+      "price": price,
+      "user_id": user.id
+    }
+    localStorage.setItem('booking', JSON.stringify({ ...currentBooking}));
+    history(`/confirmation`);
+    nextPage = "/confirmation"
+    helpers.refreshPage();
   };
 
-  const getName = ({ target: { value } }) => (userName = value);
-
+  const getName = ({target:{value}}) => userName=value;
+  
   const notHandleSubmit = (e) => {
+    e.preventDefault();
+    nextPage=''
     alert("please sign in");
   };
+  
+  const getUserName = (e) =>{
+    e.preventDefault();
+    setUserName(e.target.value)
+  }
+
+  const getNumTickets = (e) =>{
+    e.preventDefault();
+    setNumTickets(e.target.value)
+  }
 
   // handle increase and decrease in ticket count
-  const increaseTickets = () => {
-    if (numTickets <= capacity) {
+  const increaseTickets = (e) => {
+    e.preventDefault()
+    if (numTickets < capacity) {
       const incTickets = numTickets + 1;
       setNumTickets(incTickets);
       setPrice(incTickets * tour.price);
       const data = bookingData;
-      data["price"] = price;
-      data[numTickets] = numTickets;
       setBookingData(data);
     }
   };
 
-  const decreaseTickets = () => {
-    if (numTickets > 0) {
+  const decreaseTickets = (e) => {
+    e.preventDefault()
+    if (numTickets > 1) {
       const decTickets = numTickets - 1;
       setNumTickets(decTickets);
       setPrice(decTickets * tour.price);
       const data = bookingData;
-      data["price"] = price;
-      data[numTickets] = numTickets;
       setBookingData(data);
     }
   };
@@ -69,20 +97,14 @@ const BookingForm = ({
   const capacity = tour.capacity;
 
   return (
-    <Form
-      onSubmit={isLogin === true ? handleSubmit : notHandleSubmit}
+    <Form 
       className="booking-form"
     >
       <section className="when-where-price-tour">
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
           <br />
-          <input
-            onChange={getName}
-            value={getName}
-            placeholder="Enter here..."
-            className="booking-name"
-          />
+          <input id="booking-name" onChange={getUserName} placeholder="Enter here..." className="booking-name" />
         </Form.Group>
 
         <Form.Group>
@@ -116,11 +138,11 @@ const BookingForm = ({
         <Form.Label className="ticket-label all-labels">Tickets</Form.Label>
         <br />
         <section className="add-tickets">
-          <Button variant="secondary" onClick={decreaseTickets}>
+          <Button variant="secondary" className="ticket-btns" onClick={decreaseTickets}>
             -
           </Button>
-          <Form.Control className="ticket-number" readOnly value={numTickets} />
-          <Button variant="secondary" onClick={increaseTickets}>
+          <input onChange={getNumTickets} className="ticket-number" readOnly placeholder={numTickets} />
+          <Button variant="secondary" className="ticket-btns" onClick={increaseTickets}>
             +
           </Button>
           <br />
@@ -133,22 +155,12 @@ const BookingForm = ({
             Go Back
           </Button>
         </Link>
-        <Link
-          to={
-            isLogin === true
-              ? {
-                  pathname: "/confirmation",
-                  state: { bookingData },
-                }
-              : ""
-          }
-        >
-          <Button
-            onClick={canClick}
-            className="review-btn"
-            variant="secondary"
-            type="submit"
-          >
+        <Link to={nextPage}>
+          <Button 
+          onClick={user ? handleSubmit : notHandleSubmit} 
+          className="review-btn" 
+          variant="secondary" 
+          type="submit">
             Review
           </Button>
         </Link>

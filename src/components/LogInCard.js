@@ -5,17 +5,12 @@ import "./LoginSignUpCard.css";
 import "../App.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import helpers from '../Helpers';
+import * as constants from '../Constants';
 
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
-
-const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
-  // const [loginFields, setLoginFields] = useState({
-  //   email: "",
-  //   password: "",
-  //   // session_id: "",
-  // });
+const LogInCard = ({ setIsLogin, loginFields, setLoginFields}) => {
   let history = useNavigate();
-
+  
   const onEmailChange = (event) => {
     setLoginFields({
       ...loginFields,
@@ -33,17 +28,13 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
   const onSignIn = (event) => {
     event.preventDefault();
     axios
-      .post(`${kBaseUrl}/customers/login`, loginFields)
+      .post(`${constants.kBaseUrl}/customers/login`, loginFields)
       .then((response) => {
-        console.log("response data" + Object.entries(response.data));
         window.confirm("Login Successful");
-        setCurrentUser(response.data);
         localStorage.setItem("user", JSON.stringify({ ...response.data }));
-        // history.push("/confirmation");
-        // history.push("/");
-        // history.push("/dashboard");
-        // history.push("/tours");
         history.push("/*");
+        setIsLogin(true);
+        window.location.reload();
       })
       .catch((error) => {
         alert(error.response.data.error);
@@ -76,7 +67,7 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
               <p> Sing Up</p>
             </Link>
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button onClick={helpers.refreshPage} variant="primary" type="submit">
             Sign In
           </Button>
         </Form>
