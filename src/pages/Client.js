@@ -59,6 +59,7 @@ const Client = () => {
       });
   }, [param.id]);
 
+  
   return (
     <main>
       <section>

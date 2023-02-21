@@ -1,10 +1,6 @@
 import { Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./BookingForm.css";
-import axios from "axios";
-import { useEffect } from "react";
-
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const BookingForm = ({
   tour,
@@ -19,11 +15,12 @@ const BookingForm = ({
   isLogin,
   setIsLogin,
   currentUser,
-}) => {
-  console.log(currentUser.id)
-  let canClick = currentUser.id ? setIsLogin(true) : setIsLogin(false);
+}) => { 
+  const user = JSON.parse(localStorage.getItem('user'));
+  let canClick = user ? setIsLogin(true) : setIsLogin(false);
+
   let userName;
-  const booking = {
+  const currentBooking = {
     "customer_id": currentUser.id,
     "tour_id": tour.id,
     "booking_date": new Date(),
@@ -32,6 +29,8 @@ const BookingForm = ({
     "name": userName,
 
   }
+  let history = useNavigate();
+  
   // const checkLogin = () => {
   //   axios
   //     .post(`${kBaseUrl}/customers/@user`, currentUser.id)
@@ -55,11 +54,11 @@ const BookingForm = ({
   // event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
-    setBookingData(booking)
-    console.log(Object.entries(bookingData))
+    console.log("HELLO!!!")
+    localStorage.setItem('booking', JSON.stringify({ ...currentBooking}));
+    history(`/confirmation`);
+    console.log("history" + Object.entries(currentBooking))
   };
-
-  const getName = ({target:{value}}) => userName=value;
   
   const notHandleSubmit = (e) => {
     alert("please sign in");
@@ -93,14 +92,14 @@ const BookingForm = ({
   const capacity = tour.capacity;
 
   return (
-    <Form onSubmit={isLogin === true ? handleSubmit : notHandleSubmit}
+    <Form 
       className="booking-form"
     >
       <section className="when-where-price-tour">
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
           <br />
-          <input onChange={getName} value={getName} placeholder="Enter here..." className="booking-name" />
+          <input value={userName} placeholder="Enter here..." className="booking-name" />
         </Form.Group>
 
         <Form.Group>
@@ -134,11 +133,11 @@ const BookingForm = ({
         <Form.Label className="ticket-label all-labels">Tickets</Form.Label>
         <br />
         <section className="add-tickets">
-          <Button variant="secondary" onClick={decreaseTickets}>
+          <Button variant="secondary" className="ticket-btns" onClick={decreaseTickets}>
             -
           </Button>
           <Form.Control className="ticket-number" readOnly value={numTickets} />
-          <Button variant="secondary" onClick={increaseTickets}>
+          <Button variant="secondary" className="ticket-btns" onClick={increaseTickets}>
             +
           </Button>
           <br />
@@ -152,17 +151,10 @@ const BookingForm = ({
           </Button>
         </Link>
         <Link
-          to={
-            isLogin === true
-              ? {
-                  pathname: "/confirmation",
-                  state: { bookingData },
-                }
-              : ""
-          }
+          to={"/confirmation"}
         >
           <Button 
-          onClick={canClick} 
+          onClick={user ? handleSubmit : notHandleSubmit} 
           className="review-btn" 
           variant="secondary" 
           type="submit">
