@@ -10,9 +10,9 @@ const page = "confirm";
 const booking = JSON.parse(localStorage.getItem('booking'));
 
 const bookingToBePosted = {
-  customer_id: booking.user_id,
-  tour_id: booking.tour.id,
-  tickets: booking.tickets
+  //customer_id: booking.user_id,
+  //tour_id: booking.tour.id,
+  //tickets: booking.tickets
 
 }
 
