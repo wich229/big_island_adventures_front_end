@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./LoginSignUpCard.css";
 import "../App.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -32,18 +31,19 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
   };
 
   const onSignIn = (event) => {
-    
     event.preventDefault();
     axios
       .post(`${kBaseUrl}/customers/login`, loginFields)
       .then((response) => {
         console.log("response data" + Object.entries(response.data));
         window.confirm("Login Successful");
-        localStorage.setItem('user', JSON.stringify({ ...response.data }));
-        history.push('/confirmation');
-        history.push('/');
-        history.push('/dashboard');
-        history.push('/tours');
+        setCurrentUser(response.data);
+        localStorage.setItem("user", JSON.stringify({ ...response.data }));
+        // history.push("/confirmation");
+        // history.push("/");
+        // history.push("/dashboard");
+        // history.push("/tours");
+        history.push("/*");
       })
       .catch((error) => {
         alert(error.response.data.error);

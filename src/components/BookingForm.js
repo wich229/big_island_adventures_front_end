@@ -1,10 +1,6 @@
 import { Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./BookingForm.css";
-import axios from "axios";
-import { useEffect } from "react";
-
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
 const BookingForm = ({
   tour,
@@ -20,47 +16,27 @@ const BookingForm = ({
   setIsLogin,
   currentUser,
 }) => {
-  console.log(currentUser.id)
+  // console.log(currentUser.id);
   let canClick = currentUser.id ? setIsLogin(true) : setIsLogin(false);
   let userName;
   const booking = {
-    "customer_id": currentUser.id,
-    "tour_id": tour.id,
-    "booking_date": new Date(),
-    "status": "active",
-    "tickets": numTickets,
-    "name": userName,
-
-  }
-  // const checkLogin = () => {
-  //   axios
-  //     .post(`${kBaseUrl}/customers/@user`, currentUser.id)
-  //     .then((response) => {
-  //       setIsLogin(true);
-  //       console.log(response.data);
-  //       //window.confirm("Login Successful");
-  //     })
-  //     .catch((error) => {
-  //       setIsLogin(false);
-  //       //console.log(error.response);
-  //       alert(error.response.data.error);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   checkLogin();
-  //   console.log(isLogin);
-  // }, []);
+    customer_id: currentUser.id,
+    tour_id: tour.id,
+    booking_date: new Date(),
+    status: "active",
+    tickets: numTickets,
+    name: userName,
+  };
 
   // event handlers
   const handleSubmit = (e) => {
     e.preventDefault();
-    setBookingData(booking)
-    console.log(Object.entries(bookingData))
+    setBookingData(booking);
+    console.log(Object.entries(bookingData));
   };
 
-  const getName = ({target:{value}}) => userName=value;
-  
+  const getName = ({ target: { value } }) => (userName = value);
+
   const notHandleSubmit = (e) => {
     alert("please sign in");
   };
@@ -93,14 +69,20 @@ const BookingForm = ({
   const capacity = tour.capacity;
 
   return (
-    <Form onSubmit={isLogin === true ? handleSubmit : notHandleSubmit}
+    <Form
+      onSubmit={isLogin === true ? handleSubmit : notHandleSubmit}
       className="booking-form"
     >
       <section className="when-where-price-tour">
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
           <br />
-          <input onChange={getName} value={getName} placeholder="Enter here..." className="booking-name" />
+          <input
+            onChange={getName}
+            value={getName}
+            placeholder="Enter here..."
+            className="booking-name"
+          />
         </Form.Group>
 
         <Form.Group>
@@ -161,11 +143,12 @@ const BookingForm = ({
               : ""
           }
         >
-          <Button 
-          onClick={canClick} 
-          className="review-btn" 
-          variant="secondary" 
-          type="submit">
+          <Button
+            onClick={canClick}
+            className="review-btn"
+            variant="secondary"
+            type="submit"
+          >
             Review
           </Button>
         </Link>

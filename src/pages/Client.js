@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BookingForm from "../components/BookingForm";
 import LogInCard from "../components/LogInCard";
-import SignUpCard from "../components/SignUpCard";
+// import SignUpCard from "../components/SignUpCard";
 import axios from "axios";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;

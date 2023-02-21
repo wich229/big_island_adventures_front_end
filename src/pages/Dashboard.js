@@ -7,7 +7,8 @@ import { Button, Table } from "react-bootstrap";
 
 const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
 const page = "dashboard";
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem("user"));
+
 //--------------------- BOOKING API CALL --------------------------------
 const getBookingByid = (user_id) => {
   return axios
@@ -30,45 +31,44 @@ const getBookingByid = (user_id) => {
 };
 
 //--------------------- USER API CALL -----------------------------------
-const getUserByid = (user_id) => {
-  return axios
-    .post(`${kBaseUrl}/customers/@user`, user_id)
-    .then((response) => {
-      console.log(response.data);
-      //window.confirm("Login Successful");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+// const getUserByid = (user_id) => {
+//   return axios
+//     .post(`${kBaseUrl}/customers/@user`, user_id)
+//     .then((response) => {
+//       console.log(response.data);
+//       //window.confirm("Login Successful");
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
 
 //--------------------- TOUR API CALL -----------------------------------
 
 const Dashboard = () => {
   const [booking, setBooking] = useState([]);
   const [tour, setTour] = useState([]);
-  // const [user, setUser] = useState([]);
 
   useEffect(() => {
-    // getBookingByid(1)
-    //   .then((bookingData) => {
-    //     console.log(bookingData);
-    //     setBooking(bookingData);
-    //     console.log(booking);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
-    getUserByid({ id: 1 })
-      .then((userData) => {
-        // console.log(userData);
-        //setUser(userData);
-        console.log(user);
+    getBookingByid(user.id)
+      .then((bookingData) => {
+        console.log(bookingData);
+        setBooking(bookingData);
+        console.log(booking);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    //   getUserByid({ id: 1 })
+    //     .then((userData) => {
+    //       // console.log(userData);
+    //       //setUser(userData);
+    //       console.log(user);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
   }, []);
 
   return (
