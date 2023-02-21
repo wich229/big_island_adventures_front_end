@@ -40,10 +40,8 @@ const LogInCard = ({ loginFields, setLoginFields, setCurrentUser }) => {
         console.log("response data" + Object.entries(response.data));
         window.confirm("Login Successful");
         localStorage.setItem('user', JSON.stringify({ ...response.data }));
-        history.push('/confirmation');
-        history.push('/');
-        history.push('/dashboard');
-        history.push('/tours');
+        history.push('/*');
+
       })
       .catch((error) => {
         alert(error.response.data.error);

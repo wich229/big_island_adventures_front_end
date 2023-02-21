@@ -1,11 +1,11 @@
 .login-signup-form{
     width: 25vw;
-    margin:0 auto;
-    margin-top: 5rem;
     border: 1px solid rgba(0, 0, 0, 0.158);
     border-radius: 15px;
     padding: 1rem;
     background-color: white;
+    box-shadow: -16px 21px 22px -6px rgba(0,0,0,0.66);
+    margin: 5rem;
     
 }
 /* .form-container{
