@@ -41,31 +41,27 @@ const EventInfo = () => {
       <section>
         <Card className="event-info" variant="secondary">
           <Card.Img className="event-info-img" src={tour.photo_url}></Card.Img>
-                <section className="info-container">
-          <section className="title-text-btn-container">
-            <Card.Title className="event-info-title">{tour.name}</Card.Title>
-            <Card.Text>{"Date: " + formattedDate}</Card.Text>
-            <Card.Text className="event-info-text">
-              {tour.description}
-            </Card.Text>
-            <section className="event-info-btns">
-              <Link to="/tours">
-                <Button variant="secondary" className="go-back-btn">
-                  Go Back
-                </Button>
-              </Link>
-              <Link to={`/tours/client/${param.id}`}>
-                <Button variant="secondary" className="book-tour-btn">
-                  Book tour
-                </Button>
-              </Link>
-
-              <Link to="/dashboard">
-                <Button variant="secondary">testing</Button>
-              </Link>
+          <section className="info-container">
+            <section className="title-text-btn-container">
+              <Card.Title className="event-info-title">{tour.name}</Card.Title>
+              <Card.Text>{"Date: " + formattedDate}</Card.Text>
+              <Card.Text className="event-info-text">
+                {tour.description}
+              </Card.Text>
+              <section className="event-info-btns">
+                <Link to="/tours">
+                  <Button variant="secondary" className="go-back-btn">
+                    Go Back
+                  </Button>
+                </Link>
+                <Link to={`/tours/client/${param.id}`}>
+                  <Button variant="secondary" className="book-tour-btn">
+                    Book tour
+                  </Button>
+                </Link>
+              </section>
             </section>
           </section>
-                </section>
         </Card>
       </section>
     </main>
