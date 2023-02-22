@@ -5,7 +5,7 @@ import axios from "axios";
 import SecNav from "../components/SecNav";
 import { Card, Button } from "react-bootstrap";
 import "./EventInfo.css";
-const kBaseUrl = process.env.REACT_APP_BACKEND_URL;
+import * as constants from "../Constants"
 
 const EventInfo = () => {
   const param = useParams();
@@ -23,8 +23,9 @@ const EventInfo = () => {
   const formattedDate = date.toLocaleString("en-US", options);
 
   useEffect(() => {
+    console.log(param.id)
     axios
-      .get(`${kBaseUrl}/tours/${param.id}`)
+      .get(`${constants.kBaseUrl}/tours/${param.id}`)
       .then((response) => {
         setTourState(response.data);
       })
