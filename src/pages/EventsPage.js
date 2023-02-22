@@ -18,7 +18,7 @@ const page = "tours";
 
 //--------------------- Weather API CALL -------------------------------------
 const k2BaseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day";
-const WEATHER_API_KEY = process.env.REACT_APP_ACCUWEATHER_API_KEY;
+// const WEATHER_API_KEY = process.env.REACT_APP_ACCUWEATHER_API_KEY;
 const LOCATION_KEYS = {
   Hamakua: 2203629,
   Hilo: 328444,
@@ -32,7 +32,7 @@ const getAllForecastData = (locationName) => {
   // console.log("WEATHER KEY : " + WEATHER_API_KEY);
   return axios
     .get(
-      `${k2BaseUrl}/${LOCATION_KEYS[locationName]}?apikey=${WEATHER_API_KEY}`
+      `${k2BaseUrl}/${LOCATION_KEYS[locationName]}?apikey=${constants.apiKey}`
       // `${k2BaseUrl}/315078?apikey=${WEATHER_API_KEY}` //Taipei's weather
     )
     .then((response) => {
