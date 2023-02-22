@@ -5,21 +5,26 @@ import{Link} from 'react-router-dom';
 import axios from 'axios';
 import './ConfirmBooking.css'
 import * as constants from '../Constants';
+import helpers from '../Helpers';
 
 const page = "confirm";
 const booking = JSON.parse(localStorage.getItem('booking'));
 
-const bookingToBePosted = {
-  //customer_id: booking.user_id,
-  //tour_id: booking.tour.id,
-  //tickets: booking.tickets
+const bookingToBePosted = booking ? {
+  customer_id: booking.user_id,
+  tour_id: booking.tour.id,
+  tickets: booking.tickets
+  } : {  customer_id: '',
+    tour_id: '',
+    tickets: ''}
 
-}
+
 
 const ConfirmBooking = () => {
 
   const handleSubmit =()=>{
     postBooking();
+
   }
 
 

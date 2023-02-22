@@ -3,6 +3,12 @@ const helpers = {
         setTimeout(()=>{
             window.location.reload(false);
         }, 500);
+    },
+
+    reloadPage: function() {
+        setTimeout(()=>{
+            window.location.reload(true);
+        }, 500);
     }
 }
 
