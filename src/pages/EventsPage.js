@@ -17,7 +17,7 @@ import * as constants from '../Constants';
 const page = "tours";
 
 //--------------------- Weather API CALL -------------------------------------
-const k2BaseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day";
+const k2BaseUrl = "https://dataservice.accuweather.com/forecasts/v1/daily/5day";
 // const WEATHER_API_KEY = process.env.REACT_APP_ACCUWEATHER_API_KEY;
 const LOCATION_KEYS = {
   Hamakua: 2203629,
