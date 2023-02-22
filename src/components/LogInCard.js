@@ -63,7 +63,7 @@ const LogInCard = ({setIsLogin, loginFields, setLoginFields}) => {
               onChange={onPasswordChange}
             />
             <Link to={"/signup"}>
-              <p> Sing Up</p>
+              <p> Sign Up</p>
             </Link>
           </Form.Group>
           

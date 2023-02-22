@@ -32,9 +32,9 @@ function TopNav() {
     else{
       return (
         <section>
-        <Link to="/about">
+{/*         <Link to="/about">
           <Button variant="outline-secondary">About</Button>
-        </Link>{" "}
+        </Link>{" "} */}
 
         <Link to="/signup">
           <Button variant="outline-secondary">Sign Up</Button>
