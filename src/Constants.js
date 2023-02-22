@@ -1,4 +1,4 @@
 // export const kBaseUrl = "http://big-island-be.herokuapp.com"
-export const apiKey = "KwEOp0fg9DesFJhrcSCVraGLNIvgkXHd"
+export const apiKey = "yGBzWlxUjcAV0GJzf5ZkKR7GShvWrbP1"
 export const kBaseUrl = 'http://localhost:5000'
 // export const kBaseUrl = "http://be-big-island-adventures.herokuapp.com/"

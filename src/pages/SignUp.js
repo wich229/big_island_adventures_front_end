@@ -6,10 +6,6 @@ import SignUpCard from "../components/SignUpCard";
 
 const SignUp = () => { 
   const [didSignUp, setDidSignUp] = useState(false);
-  const [loginFields, setLoginFields] = useState({
-    email: "",
-    password: "",
-  });
   let history = useNavigate();
   return (
 
