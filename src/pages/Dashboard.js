@@ -4,47 +4,18 @@ import axios from "axios";
 import SecNav from "../components/SecNav";
 import "./Dashboard.css";
 import { Button, Table } from "react-bootstrap";
-import helpers from "../Helpers";
+// import helpers from "../Helpers";
 import * as constants from "../Constants";
 
 const page = "dashboard";
 const user = JSON.parse(localStorage.getItem("user"));
-const booking = JSON.parse(localStorage.getItem("booking"));
 
 //--------------------- BOOKING API CALL --------------------------------
 const getBookingByid = (user_id) => {
   return axios
     .get(`${constants.kBaseUrl}/bookings/${user_id}/transctions`)
     .then((response) => {
-      const bookingData = response.data.map((data) => {
-        return {
-          // date: data.booking_date,
-          customer_id: data.customer_id,
-          tour_id: data.tour_id,
-          status: data.status,
-          tickets: data.tickets,
-        };
-      });
-      return bookingData;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-//--------------------- TOUR API CALL -----------------------------------
-const getTourByid = (tour_id) => {
-  return axios
-    .get(`${constants.kBaseUrl}/tours/${tour_id}`)
-    .then((response) => {
-      return {
-        id: response.data["id"],
-        name: response.data["name"],
-        city: response.data["city"],
-        price: response.data["price"],
-        time: response.data["time"],
-        date: response.data["date"],
-      };
+      return response.data;
     })
     .catch((error) => {
       console.log(error);
@@ -53,7 +24,6 @@ const getTourByid = (tour_id) => {
 
 const Dashboard = () => {
   const [booking, setBooking] = useState([]);
-  const [tour_ids, setTour_ids] = useState([]);
 
   //loading user booking data
   useEffect(() => {
@@ -61,24 +31,18 @@ const Dashboard = () => {
     getBookingByid(user.id)
       .then((bookingData) => {
         console.log(bookingData);
-        const bmap = bookingData.map((eachBooking) => {
-          return eachBooking;
-        });
-        setBooking([...bmap]);
-        console.log("booking" + [...booking]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  // organize the tour_id
-  useEffect(() => {
-    getBookingByid(user.id)
-      .then((bookingData) => {
-        setTour_ids(
+        setBooking(
           bookingData.map((data) => {
-            return data.tour_id;
+            return {
+              booking_id: data.id,
+              booking_date: data.booking_date,
+              status: data.status,
+              tickets: data.tickets,
+              event_name: data.tour.name,
+              event_date: data.tour.date,
+              price: data.tour.price,
+              time: data.tour.time,
+            };
           })
         );
       })
@@ -87,30 +51,14 @@ const Dashboard = () => {
       });
   }, []);
 
-  //loading tour data and combin with booking
-  useEffect(() => {
-    const tourDataArr = tour_ids.map((id) => getTourByid(id));
-    Promise.all(tourDataArr).then((datas) => {
-      console.log(datas);
-      setBooking(
-        datas.map((data, i) => {
-          const combinData = { ...booking[i], ...data };
-          console.log("combinData");
-          console.log(combinData);
-          return combinData;
-        })
-      );
-    });
-  }, []);
-
-  // console.log("final");
-  // console.log(booking);
+  console.log("here end");
+  console.log(booking);
 
   const printOutDatas = booking.map((data) => {
     return (
-      <tr key={data.id}>
-        <td>{data.name}</td>
-        <td>{data.date}</td>
+      <tr key={data.booking_id}>
+        <td>{data.event_name}</td>
+        <td>{data.event_date}</td>
         <td>{data.tickets}</td>
         <td>{data.price * data.tickets}</td>
         <td>{data.status}</td>
