@@ -1,10 +1,8 @@
 import { Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./BookingForm.css";
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import helpers from "../Helpers";
-import * as constants from "../Constants"
+import { useState } from 'react'
+import helpers from "../Helpers"
 
 const BookingForm = ({
   tour,
@@ -23,18 +21,6 @@ const BookingForm = ({
   const [numTickets, setNumTickets] = useState(1);
   let history = useNavigate();
   let nextPage; 
-/*   let available_capacity = tour.capacity
-
-  useEffect(() => {
-    axios
-      .get(`${constants.kBaseUrl}/tours/${tour.id}/capacity`)
-      .then((response) => {
-        let availableCapacity=response.data["available_capacity"]
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [numTickets]); */
 
   // event handlers
   const handleSubmit = (e) => {
@@ -52,8 +38,6 @@ const BookingForm = ({
     nextPage = "/confirmation"
     helpers.refreshPage();
   };
-
-  const getName = ({target:{value}}) => userName=value;
   
   const notHandleSubmit = (e) => {
     e.preventDefault();
@@ -74,7 +58,7 @@ const BookingForm = ({
   // handle increase and decrease in ticket count
   const increaseTickets = (e) => {
     e.preventDefault()
-    if (numTickets < capacity) {
+    if (numTickets <= capacity) {
       const incTickets = numTickets + 1;
       setNumTickets(incTickets);
       setPrice(incTickets * tour.price);
@@ -104,7 +88,7 @@ const BookingForm = ({
         <Form.Group>
           <Form.Label className="all-labels">Name</Form.Label>
           <br />
-          <input id="booking-name" onChange={getUserName} placeholder="Enter here..." className="booking-name" />
+          <input id="booking-name" onChange={getUserName} placeholder="Enter name..." className="booking-name" />
         </Form.Group>
 
         <Form.Group>

@@ -39,6 +39,10 @@ function TopNav() {
         <Link to="/signup">
           <Button variant="outline-secondary">Sign Up</Button>
         </Link>{" "}
+
+        <Link to="/login">
+          <Button variant="outline-secondary">Log In</Button>
+        </Link>{" "}
         </section>
         )
     }

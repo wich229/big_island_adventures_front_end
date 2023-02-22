@@ -21,7 +21,7 @@ const FilterCheckboxes = ({
   return (
     <section className="filter-btn">
       <Dropdown>
-        <Dropdown.Toggle variant="secondary">Filter</Dropdown.Toggle>
+        <Dropdown.Toggle variant="secondary toggle-filter">Filter</Dropdown.Toggle>
         <Dropdown.Menu className="menu">
           {filterEntries.map(([category, options]) => (
             <section key={category}>

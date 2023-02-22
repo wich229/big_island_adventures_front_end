@@ -8,11 +8,23 @@
 }
 
 .calendar {
-  margin: 0 auto;
-  border-radius: 10px;
+  flex: 1;
+  border-radius: 5px;
   text-align: center;
+  height: auto;
+  margin-right: 1rem;
+  height: 2.5rem;
+  background-color: #6c757d;
+  border:none;
+  color: white;
+  width:fit-content;
+  
 }
 
+.calendar::placeholder{
+  color: white;
+  opacity: 100%;
+}
 .calendar-container {
   display: flex;
   flex-direction: column;
@@ -39,13 +51,12 @@ h4 {
 
 .event-card-container {
   margin: 5rem;
+  margin-top: 0;
 }
 
 .show-all-btn {
-  margin-right: 1rem;
+  margin-left: 1rem;
+  height: 2.5rem;
 }
 
-.page-btns {
-  margin: 2rem;
-  text-align: center;
-}
+

@@ -1,9 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import "./EventCard.css";
 import { Link } from "react-router-dom";
+import { Card, Button } from 'react-bootstrap';
 
 const EventCard = ({ tour }) => {
   const date = new Date(tour.time);

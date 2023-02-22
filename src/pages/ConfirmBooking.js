@@ -23,6 +23,7 @@ const bookingToBePosted = booking ? {
 const ConfirmBooking = () => {
   const handleSubmit = () => {
     postBooking();
+    helpers.refreshPage();
 
   }
 

@@ -1,9 +1,14 @@
 .filter-btn{
     margin-left: 1rem;
     width: max-content;
+
     
 }
 
+.toggle-filter{
+    height: 2.5rem;
+    margin-left: 1rem;
+}
 .menu{
     padding: 2rem;
 }

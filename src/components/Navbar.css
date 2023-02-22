@@ -2,18 +2,25 @@
   font-size: 2em;
 }
 
+.about-signup{
+  font-weight: bold;
+}
+
 .Nav {
   border-bottom: 1px solid rgba(0, 0, 0, 0.344);
   justify-content: center;
   align-items: center;
+  
 }
 
 .navbar-container {
   margin: 0;
+  font-weight: bold;
 }
 
 .navbar-container > .container {
   width: 100%;
+  font-weight: bold;
 }
 
 .turtle-logo{
@@ -27,7 +34,8 @@
 }
 
 .header-links{
-    min-width:fit-content
+    min-width:fit-content;
+    
 }
 
 .signed-in{

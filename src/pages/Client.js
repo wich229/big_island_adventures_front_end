@@ -56,6 +56,7 @@ const Client = () => {
       <section className="client-page-container">
         {!isLogin && (
           <LogInCard
+            page={page}
             setIsLogin={setIsLogin}
             loginFields={loginFields}
             setLoginFields={setLoginFields}
@@ -74,7 +75,6 @@ const Client = () => {
             setPrice={setPrice}
             bookingData={bookingData}
             setBookingData={setBookingData}
-            isLogin={isLogin}
             setIsLogin={setIsLogin}
           ></BookingForm>
         </section>

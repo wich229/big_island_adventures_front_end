@@ -207,22 +207,10 @@ const EventsPage = () => {
       </section>
 
       <section className="weather-calendar-container">
-        <section className="calendar-container">
-          <h3>Select Tour by Date</h3>
-          <DatePicker
-            placeholderText="Select Date"
-            variant="secondary"
-            popperPlacement="auto"
-            className="calendar"
-            selected={startDate}
-            onChange={(date) => handleDateChange(date)}
-          />
-        </section>
-
         <section className="weather-section">
           <section className="weather-location">
             <div>
-              <h4>{weatherLocation}</h4>
+              <h4>Get tour suggestions based on weather</h4>
               <WeatherLocationSelecter
                 weatherLocation={weatherLocation}
                 setweatherLocation={setweatherLocation}
@@ -235,13 +223,22 @@ const EventsPage = () => {
             setForecast={setForecast}
           />
           <section className="event-card-container-by-weather">
-            <h4>suggestion by weather</h4>
             <SuggestEventsList suggestTours={suggestTours} />
           </section>
         </section>
       </section>
 
       <section className="query-choices">
+      <section className="calendar-container">
+          <DatePicker
+            placeholderText="Choose by date"
+            variant="secondary"
+            popperPlacement="bottom"
+            className="calendar"
+            selected={startDate}
+            onChange={(date) => handleDateChange(date)}
+          />
+        </section>
         <section>
           <Button
             className="show-all-btn"
@@ -260,7 +257,6 @@ const EventsPage = () => {
       </section>
 
       <section className="event-card-container">
-        <h4>showing by filtering</h4>
         <EventsList tours={tours} />
       </section>
     </main>

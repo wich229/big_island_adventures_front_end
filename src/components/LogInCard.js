@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import "./LoginSignUpCard.css";
+import "./LoginCard.css";
 import "../App.css";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import helpers from '../Helpers';
-import * as constants from '../Constants';
+import { Link, redirect, useNavigate } from "react-router-dom";
+import helpers from '../Helpers'
+import * as constants from "../Constants"
 
-const LogInCard = ({ setIsLogin, loginFields, setLoginFields}) => {
+const LogInCard = ({setIsLogin, loginFields, setLoginFields}) => {
   let history = useNavigate();
   
   const onEmailChange = (event) => {
@@ -25,16 +25,16 @@ const LogInCard = ({ setIsLogin, loginFields, setLoginFields}) => {
     });
   };
 
-  const onSignIn = (event) => {
+  const onSignIn = async (event) => {
     event.preventDefault();
     axios
       .post(`${constants.kBaseUrl}/customers/login`, loginFields)
       .then((response) => {
+        setIsLogin(true);
         window.confirm("Login Successful");
         localStorage.setItem("user", JSON.stringify({ ...response.data }));
         history.push("/*");
-        setIsLogin(true);
-        window.location.reload();
+        
       })
       .catch((error) => {
         alert(error.response.data.error);
@@ -42,7 +42,6 @@ const LogInCard = ({ setIsLogin, loginFields, setLoginFields}) => {
   };
 
   return (
-    <main className="form-container">
       <section>
         <Form className="text-center login-signup-form" onSubmit={onSignIn}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -67,12 +66,12 @@ const LogInCard = ({ setIsLogin, loginFields, setLoginFields}) => {
               <p> Sing Up</p>
             </Link>
           </Form.Group>
-          <Button onClick={helpers.refreshPage} variant="primary" type="submit">
+          
+          <Button onClick={helpers.refreshPage} variant="secondary" type="submit">
             Sign In
           </Button>
         </Form>
       </section>
-    </main>
   );
 };
 
